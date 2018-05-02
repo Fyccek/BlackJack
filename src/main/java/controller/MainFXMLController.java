@@ -299,18 +299,16 @@ public class MainFXMLController implements Initializable {
         if (playerPosition == 0) {
             this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-            Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[playerPosition] + ".png").toString());
-            img11.setImage(image1);
-            myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
+            setPlayerCardIm(playerPosition, img11);
+
             ++playerPosition;
         }
 
         if (playerPosition == 1) {
             this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-            Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[playerPosition] + ".png").toString());
-            img12.setImage(image1);
-            myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
+            setPlayerCardIm(playerPosition, img12);
+
             ++playerPosition;
         }
     }
@@ -344,9 +342,8 @@ public class MainFXMLController implements Initializable {
             if (playerPosition == 2) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[playerPosition] + ".png").toString());
-                img13.setImage(image1);
-                myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
+                setPlayerCardIm(playerPosition, img13);
+
                 ++playerPosition;
                 break;
             }
@@ -354,9 +351,8 @@ public class MainFXMLController implements Initializable {
             if (playerPosition == 3) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[playerPosition] + ".png").toString());
-                img14.setImage(image1);
-                myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
+                setPlayerCardIm(playerPosition, img14);
+
                 ++playerPosition;
                 break;
             }
@@ -364,9 +360,8 @@ public class MainFXMLController implements Initializable {
             if (playerPosition == 4) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[playerPosition] + ".png").toString());
-                img15.setImage(image1);
-                myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
+                setPlayerCardIm(playerPosition, img15);
+
                 ++playerPosition;
                 break;
             }
@@ -374,9 +369,8 @@ public class MainFXMLController implements Initializable {
             if (playerPosition == 5) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[playerPosition] + ".png").toString());
-                img16.setImage(image1);
-                myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
+                setPlayerCardIm(playerPosition, img16);
+
                 ++playerPosition;
                 break;
             }
@@ -384,9 +378,8 @@ public class MainFXMLController implements Initializable {
             if (playerPosition == 6) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[playerPosition] + ".png").toString());
-                img17.setImage(image1);
-                myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
+                setPlayerCardIm(playerPosition, img17);
+
                 ++playerPosition;
                 break;
             }
@@ -394,10 +387,9 @@ public class MainFXMLController implements Initializable {
             if (playerPosition == 7) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[playerPosition] + ".png").toString());
-                img18.setImage(image1);
-                myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
-                HintButton.setDisable(true);
+                setPlayerCardIm(playerPosition, img18);
+
+                ++playerPosition;
                 break;
             }
         }
@@ -504,6 +496,12 @@ public class MainFXMLController implements Initializable {
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainFXml.fxml"));
         Desk.getChildren().setAll(pane);
 
+    }
+
+    private void setPlayerCardIm(int position, ImageView imageView){
+        Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[position] + ".png").toString());
+        imageView.setImage(image1);
+        myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
     }
 }
 
