@@ -223,6 +223,7 @@ public class MainFXMLController implements Initializable {
         }
     }
 
+    @FXML
     public void letsPlay(ActionEvent event) {
         InitializePlayerHand();
         InitializeAiHand();
@@ -232,6 +233,7 @@ public class MainFXMLController implements Initializable {
         PassButton.setDisable(false);
     }
 
+    @FXML
     public void PassButtonAction(ActionEvent event) {
         reMatch.setVisible(true);
         ConcedeButton.setDisable(false);
@@ -285,55 +287,46 @@ public class MainFXMLController implements Initializable {
         }
     }
 
-    public static PlayerEntity getPlayerEntity(){
-        return playerEntity;
+    @FXML
+    public void reMatchAction(ActionEvent event) throws IOException {
+        AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainFXml.fxml"));
+        Desk.getChildren().setAll(pane);
+
     }
 
-    public static AiEntity getAiEntity(){
-        return aiEntity;
-    }
+    @FXML
+    public void Betting(ActionEvent event) {
+        StartButton.setDisable(false);
+        BetButton.setVisible(false);
+        bettingField.setVisible(false);
 
+        int  bet = parseInt(bettingField.getText());
 
-    private void InitializePlayerHand() {
+        if (bet > playerEntity.getCredit() || bet > aiEntity.getCredit()) {
+            StartButton.setDisable(true);
+            BetButton.setVisible(true);
+            bettingField.setVisible(true);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning!");
+            alert.setHeaderText("Too much bet!");
+            alert.setContentText("Give less credit for betting!");
+            alert.showAndWait();
 
-        if (playerPosition == 0) {
-            this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
+        } else {
 
-            setPlayerCardIm(playerPosition, img11);
+            this.gameMaster.getPlayer().PlusBet(bet);
+            playerEntity.setCredit(playerEntity.getCredit() - bet);
+            DB_MANAGER.save(playerEntity);
 
-            ++playerPosition;
+            this.gameMaster.getAi().plusBet(bet);
+            aiEntity.setCredit(aiEntity.getCredit() - bet);
+            DB_MANAGER.save(aiEntity);
+            Bets.setText("" + bet * 2);
+
+            myCredit.setText(": " + playerEntity.getCredit());
+            aiCredit.setText(": " + aiEntity.getCredit());
         }
 
-        if (playerPosition == 1) {
-            this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
-
-            setPlayerCardIm(playerPosition, img12);
-
-            ++playerPosition;
-        }
-    }
-
-    private void InitializeAiHand() {
-
-        if (aiPosition == 0) {
-            this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
-
-            if(!endofgame){
-                Image image1 = new Image("pictures/backGround.png");
-                img01.setImage(image1);
-            }
-            ++aiPosition;
-        }
-
-        if (aiPosition == 1) {
-            this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
-
-            if(!endofgame){
-                Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getAi().getHand()[aiPosition] + ".png").toString());
-                img02.setImage(image1);
-            }
-            ++aiPosition;
-        }
     }
 
     private void HintPlayerHand() {
@@ -458,50 +451,62 @@ public class MainFXMLController implements Initializable {
             }
         }
 
-    public void Betting(ActionEvent event) {
-        StartButton.setDisable(false);
-        BetButton.setVisible(false);
-        bettingField.setVisible(false);
+    private void InitializePlayerHand() {
 
-        int  bet = parseInt(bettingField.getText());
+        if (playerPosition == 0) {
+            this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-        if (bet > playerEntity.getCredit() || bet > aiEntity.getCredit()) {
-            StartButton.setDisable(true);
-            BetButton.setVisible(true);
-            bettingField.setVisible(true);
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning!");
-            alert.setHeaderText("Too much bet!");
-            alert.setContentText("Give less credit for betting!");
-            alert.showAndWait();
+            setPlayerCardIm(playerPosition, img11);
 
-        } else {
-
-            this.gameMaster.getPlayer().PlusBet(bet);
-            playerEntity.setCredit(playerEntity.getCredit() - bet);
-            DB_MANAGER.save(playerEntity);
-
-            this.gameMaster.getAi().plusBet(bet);
-            aiEntity.setCredit(aiEntity.getCredit() - bet);
-            DB_MANAGER.save(aiEntity);
-            Bets.setText("" + bet * 2);
-
-            myCredit.setText(": " + playerEntity.getCredit());
-            aiCredit.setText(": " + aiEntity.getCredit());
+            ++playerPosition;
         }
 
+        if (playerPosition == 1) {
+            this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
+
+            setPlayerCardIm(playerPosition, img12);
+
+            ++playerPosition;
+        }
     }
 
-    public void reMatchAction(ActionEvent event) throws IOException {
-        AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainFXml.fxml"));
-        Desk.getChildren().setAll(pane);
 
+    private void InitializeAiHand() {
+
+        if (aiPosition == 0) {
+            this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
+
+            if(!endofgame){
+                Image image1 = new Image("pictures/backGround.png");
+                img01.setImage(image1);
+            }
+            ++aiPosition;
+        }
+
+        if (aiPosition == 1) {
+            this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
+
+            if(!endofgame){
+                Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getAi().getHand()[aiPosition] + ".png").toString());
+                img02.setImage(image1);
+            }
+            ++aiPosition;
+        }
     }
 
     private void setPlayerCardIm(int position, ImageView imageView){
         Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[position] + ".png").toString());
         imageView.setImage(image1);
         myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
+    }
+
+
+    public static PlayerEntity getPlayerEntity(){
+        return playerEntity;
+    }
+
+    public static AiEntity getAiEntity(){
+        return aiEntity;
     }
 }
 
