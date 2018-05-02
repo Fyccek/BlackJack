@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="Desk" prefHeight="562.0" prefWidth="987.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainFXMLController">
+    <children>
+        <SplitPane dividerPositions="0.5140350877192983" layoutX="-1.0" layoutY="-4.0" orientation="VERTICAL" prefHeight="572.0" prefWidth="987.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <ImageView fx:id="img01" fitHeight="108.0" fitWidth="79.0" layoutX="15.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img02" fitHeight="108.0" fitWidth="79.0" layoutX="104.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img03" fitHeight="108.0" fitWidth="79.0" layoutX="192.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img04" fitHeight="108.0" fitWidth="79.0" layoutX="281.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img05" fitHeight="108.0" fitWidth="79.0" layoutX="374.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img06" fitHeight="108.0" fitWidth="79.0" layoutX="463.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img07" fitHeight="108.0" fitWidth="79.0" layoutX="551.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img08" fitHeight="108.0" fitWidth="79.0" layoutX="640.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="aiScore" layoutX="911.0" layoutY="15.0" prefHeight="38.0" prefWidth="60.0" />
+                        <Label layoutX="869.0" layoutY="24.0" prefHeight="21.0" prefWidth="42.0" text="AI:" />
+                        <ImageView fx:id="Credit01" fitHeight="31.0" fitWidth="35.0" layoutX="873.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="aiCredit" layoutX="911.0" layoutY="54.0" prefHeight="38.0" prefWidth="60.0" />
+                        <Label fx:id="Bets" layoutX="466.0" layoutY="232.0" prefHeight="38.0" prefWidth="60.0" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="985.0">
+                    <children>
+                        <Button fx:id="HintButton" alignment="CENTER" layoutX="859.0" layoutY="194.0" mnemonicParsing="false" onAction="#hintButtonAction" text="Hint" />
+                        <Button fx:id="PassButton" alignment="CENTER" layoutX="922.0" layoutY="194.0" mnemonicParsing="false" onAction="#PassButtonAction" text="Stand" />
+                        <Button fx:id="ConcedeButton" layoutX="870.0" layoutY="228.0" mnemonicParsing="false" onAction="#concedeButtonAction" prefHeight="31.0" prefWidth="96.0" text="MainMenu" />
+                        <ImageView fx:id="img11" fitHeight="108.0" fitWidth="79.0" layoutX="27.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img12" fitHeight="108.0" fitWidth="79.0" layoutX="116.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img13" fitHeight="108.0" fitWidth="79.0" layoutX="204.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img14" fitHeight="108.0" fitWidth="79.0" layoutX="293.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img15" fitHeight="108.0" fitWidth="79.0" layoutX="386.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img16" fitHeight="108.0" fitWidth="79.0" layoutX="475.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img17" fitHeight="108.0" fitWidth="79.0" layoutX="563.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img18" fitHeight="108.0" fitWidth="79.0" layoutX="652.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="myScore" layoutX="911.0" layoutY="14.0" prefHeight="38.0" prefWidth="60.0" />
+                        <Button fx:id="StartButton" layoutX="440.0" layoutY="18.0" mnemonicParsing="false" onAction="#letsPlay" prefHeight="31.0" prefWidth="67.0" text="Start" />
+                        <Label layoutX="858.0" layoutY="23.0" prefHeight="21.0" prefWidth="42.0" text="You:" />
+                        <ImageView fx:id="Credit02" fitHeight="31.0" fitWidth="35.0" layoutX="865.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="myCredit" layoutX="911.0" layoutY="61.0" prefHeight="38.0" prefWidth="60.0" />
+                        <Button fx:id="BetButton" layoutX="6.0" layoutY="8.0" mnemonicParsing="false" onAction="#Betting" prefHeight="31.0" prefWidth="60.0" text="Bet" />
+                        <TextField fx:id="bettingField" layoutX="79.0" layoutY="8.0" />
+                        <Button fx:id="reMatch" layoutX="870.0" layoutY="151.0" mnemonicParsing="false" onAction="#reMatchAction" prefHeight="31.0" prefWidth="96.0" text="Rematch" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>
