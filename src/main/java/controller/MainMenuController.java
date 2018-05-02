@@ -26,6 +26,7 @@ package controller;
  * #L%
  */
 
+import dao.DBManager;
 import javafx.scene.control.Label;
 import modell.GameMaster;
 import javafx.application.Platform;
@@ -40,7 +41,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static controller.MainFXMLController.aiEntity;
+import static controller.MainFXMLController.playerEntity;
+
 public class MainMenuController implements Initializable {
+
+    private static final DBManager DB_MANAGER = DBManager.getDpInstance();
 
     @FXML
     private AnchorPane MainPane;
@@ -51,12 +57,6 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button PlayButton;
 
-    @FXML
-    private Button ResetButton;
-
-    @FXML
-    private Label highScore;
-
     private final Integer BASE_CREDIT = 5000;
 
     @FXML
@@ -66,17 +66,11 @@ public class MainMenuController implements Initializable {
     }
 
     public void getOff(ActionEvent event) {
+        DB_MANAGER.save(playerEntity);
+        DB_MANAGER.save(aiEntity);
+
         Platform.exit();
     }
 
-    public void resetStats(ActionEvent event) {
-        GameMaster gameMaster = new GameMaster();
-        MainFXMLController.getPlayerEntity().setCredit(BASE_CREDIT);
-        MainFXMLController.getAiEntity().setCredit(BASE_CREDIT);
-    }
-
-    public void initialize(URL location, ResourceBundle resources) {
-        highScore.setText("" + MainFXMLController.playerEntity.getMaxCredit());
-
-    }
+    public void initialize(URL location, ResourceBundle resources) { }
 }

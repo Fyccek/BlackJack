@@ -172,4 +172,64 @@ public class DBManager {
         entityManager.remove(delEntity);
         entityManager.getTransaction().commit();
     }
+
+    public Integer findMaxCredit(Long Id) {
+
+        if (!connected()) {
+            throw new IllegalStateException("No database connection!");
+        }
+
+        try {
+            Query query = entityManager.createNamedQuery("PlayerEntity.findMaxCredit");
+            query.setParameter("Id", Id);
+
+            int entitys = (int) query.getSingleResult();
+
+            return entitys;
+
+        } catch (NoResultException e) {
+            return null;
+
+        }
+    }
+
+    public Integer findPlayersCredit(Long Id) {
+
+        if (!connected()) {
+            throw new IllegalStateException("No database connection!");
+        }
+
+        try {
+            Query query = entityManager.createNamedQuery("PlayerEntity.findPlayersCredit");
+            query.setParameter("Id", Id);
+
+            int entitys = (int) query.getSingleResult();
+
+            return entitys;
+
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public Integer findAisCredit(Long Id) {
+
+        if (!connected()) {
+            throw new IllegalStateException("No database connection!");
+        }
+
+        try {
+            Query query = entityManager.createNamedQuery("AiEntity.findAisCredit");
+            query.setParameter("Id", Id);
+
+            int entitys = (int) query.getSingleResult();
+
+            return entitys;
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
 }

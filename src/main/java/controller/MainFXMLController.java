@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static java.lang.Integer.max;
 import static java.lang.Integer.parseInt;
 
 public class MainFXMLController implements Initializable {
@@ -145,6 +146,9 @@ public class MainFXMLController implements Initializable {
     private Label aiCredit;
 
     @FXML
+    private Label maxCredit;
+
+    @FXML
     private ImageView Credit01;
 
     @FXML
@@ -163,6 +167,7 @@ public class MainFXMLController implements Initializable {
     private Button mainMenuButton;
     
     private final Integer BASE_CREDIT = 5000;
+    private static int max_credit = 5000;
 
     public void initialize(URL location, ResourceBundle resources) {
         HintButton.setDisable(true);
@@ -171,18 +176,20 @@ public class MainFXMLController implements Initializable {
         StartButton.setDisable(true);
         reMatch.setVisible(false);
 
-        if (((playerEntity.getCredit() == null)
-                && (aiEntity.getCredit() == null))
-                || playerEntity.getCredit() == 0 || aiEntity.getCredit() == 0) {
+        if (((DB_MANAGER.findPlayersCredit(playerEntity.getId()) == null)
+                && (DB_MANAGER.findAisCredit(aiEntity.getId()) == null))
+                || DB_MANAGER.findPlayersCredit(playerEntity.getId()) == 0 || DB_MANAGER.findAisCredit(aiEntity.getId()) == 0) {
 
             playerEntity.setCredit(BASE_CREDIT);
             aiEntity.setCredit(BASE_CREDIT);
             playerEntity.setMaxCredit(BASE_CREDIT);
         } else {
-            playerEntity.setCredit(playerEntity.getCredit());
-            aiEntity.setCredit(aiEntity.getCredit());
-            playerEntity.setMaxCredit(playerEntity.getMaxCredit());
+            playerEntity.setCredit(DB_MANAGER.findPlayersCredit(playerEntity.getId()));
+            aiEntity.setCredit(DB_MANAGER.findAisCredit(aiEntity.getId()));
+            playerEntity.setMaxCredit(DB_MANAGER.findMaxCredit(playerEntity.getId()));
         }
+        //playerEntity.setCredit(DB_MANAGER.findPlayersCredit(playerEntity.getId()));
+        //aiEntity.setCredit(DB_MANAGER.findAisCredit(aiEntity.getId()));
 
         DB_MANAGER.save(playerEntity);
         DB_MANAGER.save(aiEntity);
@@ -196,6 +203,8 @@ public class MainFXMLController implements Initializable {
 
         myCredit.setText(": " + playerEntity.getCredit());
         aiCredit.setText(": " + aiEntity.getCredit());
+
+        maxCredit.setText("" + max_credit);
     }
 
     @FXML
@@ -212,9 +221,9 @@ public class MainFXMLController implements Initializable {
         HintPlayerHand();
         if(parseInt(myScore.getText()) > 21) {
             int bet = parseInt(Bets.getText());
-            aiEntity.setCredit(aiEntity.getCredit() + bet);
+            aiEntity.setCredit(DB_MANAGER.findAisCredit(aiEntity.getId()) + bet);
             DB_MANAGER.save(aiEntity);
-            aiCredit.setText(": " + aiEntity.getCredit());
+            aiCredit.setText(": " + DB_MANAGER.findAisCredit(aiEntity.getId()));
             Bets.setText("");
             HintButton.setDisable(true);
             PassButton.setDisable(true);
@@ -246,23 +255,27 @@ public class MainFXMLController implements Initializable {
         if(this.gameMaster.getWinner(this.gameMaster.getPlayer(), this.gameMaster.getAi()) == 1) {
 
             int bet = parseInt(Bets.getText());
-            playerEntity.setCredit(playerEntity.getCredit() + bet);
+            playerEntity.setCredit(DB_MANAGER.findPlayersCredit(playerEntity.getId()) + bet);
 
-            if (playerEntity.getMaxCredit() < playerEntity.getCredit()) {
-                playerEntity.setMaxCredit(playerEntity.getCredit());
+            Bets.setText("");
+            DB_MANAGER.save(playerEntity);
+
+            if (parseInt(maxCredit.getText()) < DB_MANAGER.findPlayersCredit(playerEntity.getId())) {
+                max_credit = DB_MANAGER.findPlayersCredit(playerEntity.getId());
+                maxCredit.setText("" + max_credit);
             }
 
-            DB_MANAGER.save(playerEntity);
         } else {
             int betai = parseInt(Bets.getText());
-            aiEntity.setCredit(aiEntity.getCredit() + betai);
+            aiEntity.setCredit((DB_MANAGER.findAisCredit(aiEntity.getId())) + betai);
+            Bets.setText("");
             DB_MANAGER.save(aiEntity);
         }
 
-        myCredit.setText(": " + playerEntity.getCredit());
-        aiCredit.setText(": " + aiEntity.getCredit());
+        myCredit.setText(": " + DB_MANAGER.findPlayersCredit(playerEntity.getId()));
+        aiCredit.setText(": " + DB_MANAGER.findAisCredit(aiEntity.getId()));
 
-        if (playerEntity.getCredit() == 0) {
+        if (DB_MANAGER.findPlayersCredit(playerEntity.getId()) == 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setHeaderText("You lost!");
@@ -271,10 +284,10 @@ public class MainFXMLController implements Initializable {
             HintButton.setDisable(true);
             ConcedeButton.setDisable(false);
             PassButton.setDisable(true);
-            reMatch.setDisable(true);
+            reMatch.setVisible(true);
         }
 
-        if (aiEntity.getCredit() == 0) {
+        if (DB_MANAGER.findAisCredit(aiEntity.getId()) == 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setHeaderText("You WON!!!");
@@ -283,7 +296,7 @@ public class MainFXMLController implements Initializable {
             HintButton.setDisable(true);
             ConcedeButton.setDisable(false);
             PassButton.setDisable(true);
-            reMatch.setDisable(true);
+            reMatch.setVisible(true);
         }
     }
 
@@ -291,6 +304,7 @@ public class MainFXMLController implements Initializable {
     public void reMatchAction(ActionEvent event) throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainFXml.fxml"));
         Desk.getChildren().setAll(pane);
+        maxCredit.setText("" + max_credit);
 
     }
 
@@ -302,7 +316,7 @@ public class MainFXMLController implements Initializable {
 
         int  bet = parseInt(bettingField.getText());
 
-        if (bet > playerEntity.getCredit() || bet > aiEntity.getCredit()) {
+        if (bet > DB_MANAGER.findPlayersCredit(playerEntity.getId()) || bet > DB_MANAGER.findAisCredit(aiEntity.getId())) {
             StartButton.setDisable(true);
             BetButton.setVisible(true);
             bettingField.setVisible(true);
@@ -314,17 +328,31 @@ public class MainFXMLController implements Initializable {
 
         } else {
 
+            if (bet < this.gameMaster.getMinBet()){
+
+                StartButton.setDisable(true);
+                BetButton.setVisible(true);
+                bettingField.setVisible(true);
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning!");
+                alert.setHeaderText("Too less bet!");
+                alert.setContentText("Give more credit for betting!");
+                alert.showAndWait();
+        }
+        else {
+
             this.gameMaster.getPlayer().PlusBet(bet);
-            playerEntity.setCredit(playerEntity.getCredit() - bet);
+            playerEntity.setCredit(DB_MANAGER.findPlayersCredit(playerEntity.getId()) - bet);
             DB_MANAGER.save(playerEntity);
 
             this.gameMaster.getAi().plusBet(bet);
-            aiEntity.setCredit(aiEntity.getCredit() - bet);
+            aiEntity.setCredit(DB_MANAGER.findAisCredit(aiEntity.getId()) - bet);
             DB_MANAGER.save(aiEntity);
             Bets.setText("" + bet * 2);
 
-            myCredit.setText(": " + playerEntity.getCredit());
-            aiCredit.setText(": " + aiEntity.getCredit());
+            myCredit.setText(": " + DB_MANAGER.findPlayersCredit(playerEntity.getId()));
+            aiCredit.setText(": " + DB_MANAGER.findAisCredit(aiEntity.getId()));
+        }
         }
 
     }
@@ -508,6 +536,7 @@ public class MainFXMLController implements Initializable {
     public static AiEntity getAiEntity(){
         return aiEntity;
     }
+
 }
 
 

@@ -36,7 +36,7 @@ import java.io.Serializable;
 @Table(name = "PLAYER", schema = "MY_OWN_SCHEMA")
 @NamedQueries({
         @NamedQuery(name = "PlayerEntity.findPlayersCredit", query = "SELECT e.credit FROM PlayerEntity e where e.Id = :Id"),
-        @NamedQuery(name = "PlayerEntity.findMaxCredit", query = "SELECT MAX(e.credit) FROM PlayerEntity e")
+        @NamedQuery(name = "PlayerEntity.findMaxCredit", query = "SELECT MAX(e.credit) FROM PlayerEntity e where e.Id = :Id")
 })
 
 /**
