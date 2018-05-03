@@ -149,4 +149,68 @@ public class WinnerCalc {
 	        }
 	        return sum;
 		}
+
+    /**
+     * Method for get back a card's value.
+     *
+     * @param card, a card.
+     *
+     * @return value of a card.
+     *
+     * */
+    public int calculateCardValue(String card) {
+
+            if (card.endsWith("2")) {
+                seged = 2;
+            } else {
+                if (card.endsWith("3")) {
+                    seged = 3;
+                } else {
+                    if (card.endsWith("4")) {
+                        seged = 4;
+                    }else {
+                        if (card.endsWith("5")) {
+                            seged = 5;
+                        } else {
+                            if (card.endsWith("6")) {
+                                seged = 6;
+                            } else {
+                                if (card.endsWith("7")) {
+                                    seged = 7;
+                                } else {
+                                    if (card.endsWith("8")) {
+                                        seged = 8;
+                                    } else {
+                                        if (card.endsWith("9")) {
+                                            seged = 9;
+                                        } else {
+                                            if (card.endsWith("10")) {
+                                                seged = 10;
+                                            } else {
+                                                if (card.endsWith("J")) {
+                                                    seged = 10;
+                                                } else {
+                                                    if (card.endsWith("Q")) {
+                                                        seged = 10;
+                                                    } else {
+                                                        if (card.endsWith("K")) {
+                                                            seged = 10;
+                                                        } else {
+                                                            if (card.endsWith("A")) {
+                                                                    seged = 11;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        return seged;
+    }
 }

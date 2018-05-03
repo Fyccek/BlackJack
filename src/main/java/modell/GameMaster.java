@@ -55,6 +55,11 @@ public class GameMaster {
     private final Player player;
 
     /**
+     * Another Player instance.
+     **/
+    private final Player player2;
+
+    /**
      * ArtInt instance.
      * */
     private final ArtInt ai;
@@ -69,6 +74,7 @@ public class GameMaster {
         this.dealer            = new Dealer();
         this.player            = new Player();
         this.ai                = new ArtInt();
+        this.player2           = new Player();
 }
 
     /**
@@ -102,6 +108,7 @@ public class GameMaster {
     public int getMinBet() {
         return this.minBet;
     }
+
     /**
      *Getter method for dealer variable.
      * */
@@ -116,4 +123,11 @@ public class GameMaster {
      * Getter method for player variable.
      * */
     public Player getPlayer() {return this.player;}
+
+    /**
+     * Getter method for player2 variable.
+     * */
+    public Player getPlayer2() {return this.player2;}
+
+    public WinnerCalc getWinnerCalc() { return this.winnerCalc; }
 }

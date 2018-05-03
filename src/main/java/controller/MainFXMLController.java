@@ -161,10 +161,17 @@ public class MainFXMLController implements Initializable {
     private Button reMatch;
 
     @FXML
-    private Button mainMenuButton;
+    private Button splitButton;
     
     private final Integer BASE_CREDIT = 5000;
-    private static int aiCreditAmount = 5000;
+
+    public static int aiCreditAmount = 5000;
+    public static Image imgStaticAi;
+    public static Image imgStaticPlayer1;
+    public static Image imgStaticPlayer2;
+    public static int myHandsValue;
+    public static int betsValue;
+    public static int aiHandsValue;
 
     public void initialize(URL location, ResourceBundle resources) {
         HintButton.setDisable(true);
@@ -172,6 +179,8 @@ public class MainFXMLController implements Initializable {
         PassButton.setDisable(true);
         StartButton.setDisable(true);
         reMatch.setVisible(false);
+        splitButton.setVisible(false);
+
 
         if (((DB_MANAGER.findPlayersCredit(playerEntity.getId()) == null
                 || DB_MANAGER.findPlayersCredit(playerEntity.getId()) == 0 || aiCreditAmount == 0))) {
@@ -210,6 +219,15 @@ public class MainFXMLController implements Initializable {
     }
 
     @FXML
+    public void splitButtonAction(ActionEvent actionEvent) throws IOException {
+        myHandsValue = this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getPlayer().getHandCard(0));
+        betsValue = parseInt(Bets.getText());
+        aiHandsValue = this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getAi().getHandCard(0));
+        AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/Split.fxml"));
+        Desk.getChildren().setAll(pane);
+    }
+
+    @FXML
     public void hintButtonAction(ActionEvent event) {
         HintPlayerHand();
         if(parseInt(myScore.getText()) > 21) {
@@ -221,6 +239,13 @@ public class MainFXMLController implements Initializable {
             PassButton.setDisable(true);
             reMatch.setVisible(true);
             ConcedeButton.setDisable(false);
+
+            if (aiCreditAmount == 0 || DB_MANAGER.findPlayersCredit(playerEntity.getId()) == 0){whoWon();} else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("RESULT");
+                alert.setContentText(":(");
+                alert.showAndWait();
+            }
         }
     }
 
@@ -228,10 +253,32 @@ public class MainFXMLController implements Initializable {
     public void letsPlay(ActionEvent event) {
         InitializePlayerHand();
         InitializeAiHand();
+
         StartButton.setVisible(false);
         HintButton.setDisable(false);
         ConcedeButton.setDisable(true);
         PassButton.setDisable(false);
+
+        imgStaticAi = img01.getImage();
+        imgStaticPlayer1 = img11.getImage();
+        imgStaticPlayer2 = img12.getImage();
+
+        if (this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getPlayer().getHandCard(0))
+                == this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getPlayer().getHandCard(1))) {
+            splitButton.setVisible(true);
+        }
+
+        if ((this.gameMaster.getPlayer().getHandCard(0).endsWith("A")
+                && this.gameMaster.getPlayer().getHandCard(0).endsWith("K"))
+                || (this.gameMaster.getPlayer().getHandCard(0).endsWith("K")
+                && this.gameMaster.getPlayer().getHandCard(0).endsWith("A"))) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("WAOOO");
+            alert.setHeaderText("You got BlacJack!!");
+            alert.setContentText("Instant win! :)");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -252,42 +299,31 @@ public class MainFXMLController implements Initializable {
             Bets.setText("");
             DB_MANAGER.save(playerEntity);
 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("RESULT");
+            alert.setContentText(":)");
+            alert.showAndWait();
+
         } else {
             int betai = parseInt(Bets.getText());
             aiCreditAmount += betai ;
             Bets.setText("");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("RESULT");
+            alert.setContentText(":(");
+            alert.showAndWait();
         }
 
         myCredit.setText(": " + DB_MANAGER.findPlayersCredit(playerEntity.getId()));
         aiCredit.setText(": " + aiCreditAmount);
 
-        if (DB_MANAGER.findPlayersCredit(playerEntity.getId()) == 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("RESULT");
-            alert.setHeaderText("You lost!");
-            alert.setContentText("Better luck next time!:)");
-            alert.showAndWait();
-            HintButton.setDisable(true);
-            ConcedeButton.setDisable(false);
-            PassButton.setDisable(true);
-            reMatch.setVisible(true);
-        }
-
-        if (aiCreditAmount == 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("RESULT");
-            alert.setHeaderText("You WON!!!");
-            alert.setContentText("Your friends are so proud of you!:)");
-            alert.showAndWait();
-            HintButton.setDisable(true);
-            ConcedeButton.setDisable(false);
-            PassButton.setDisable(true);
-            reMatch.setVisible(true);
-        }
+        whoWon();
     }
 
     @FXML
     public void reMatchAction(ActionEvent event) throws IOException {
+        if(aiCreditAmount <= 0){ aiCreditAmount = BASE_CREDIT; }
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainFXml.fxml"));
         Desk.getChildren().setAll(pane);
     }
@@ -511,11 +547,31 @@ public class MainFXMLController implements Initializable {
         myScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()));
     }
 
+    private void whoWon(){
+        if (DB_MANAGER.findPlayersCredit(playerEntity.getId()) == 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("RESULT");
+            alert.setHeaderText("You lost!");
+            alert.setContentText("Better luck next time!:)");
+            alert.showAndWait();
+            HintButton.setDisable(true);
+            ConcedeButton.setDisable(false);
+            PassButton.setDisable(true);
+            reMatch.setVisible(true);
+        }
 
-    public static PlayerEntity getPlayerEntity(){
-        return playerEntity;
+        if (aiCreditAmount == 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("RESULT");
+            alert.setHeaderText("You WON!!!");
+            alert.setContentText("Your friends are so proud of you!:)");
+            alert.showAndWait();
+            HintButton.setDisable(true);
+            ConcedeButton.setDisable(false);
+            PassButton.setDisable(true);
+            reMatch.setVisible(true);
+        }
     }
-
 }
 
 
