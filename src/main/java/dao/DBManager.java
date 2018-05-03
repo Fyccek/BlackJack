@@ -126,33 +126,6 @@ public class DBManager {
     }
 
     /**
-     * Save a AiEntity in the database:
-     *      -If the entity's Id is {@code null} then create new entity (persist).
-     *      -Any other case we need merge.
-     *
-     * @param entity to save.
-     *
-     */
-    public void save(AiEntity entity){
-        if(!connected()){
-            throw new IllegalStateException("No connection!");
-        }
-
-        if(entity == null){
-            throw new IllegalArgumentException("Entity is null!");
-        }
-
-        entityManager.getTransaction().begin();
-
-        if(entity.getId() == null){
-            entityManager.persist(entity); //insert entity to table
-        } else { entityManager.merge(entity);} //update
-
-        entityManager.getTransaction().commit();
-
-    }
-
-    /**
      * Delete a PlayerEntity from the database.
      *
      * @param entity we want to delete.
@@ -173,25 +146,6 @@ public class DBManager {
         entityManager.getTransaction().commit();
     }
 
-    public Integer findMaxCredit(Long Id) {
-
-        if (!connected()) {
-            throw new IllegalStateException("No database connection!");
-        }
-
-        try {
-            Query query = entityManager.createNamedQuery("PlayerEntity.findMaxCredit");
-            query.setParameter("Id", Id);
-
-            int entitys = (int) query.getSingleResult();
-
-            return entitys;
-
-        } catch (NoResultException e) {
-            return null;
-
-        }
-    }
 
     public Integer findPlayersCredit(Long Id) {
 
@@ -207,25 +161,6 @@ public class DBManager {
 
             return entitys;
 
-
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
-    public Integer findAisCredit(Long Id) {
-
-        if (!connected()) {
-            throw new IllegalStateException("No database connection!");
-        }
-
-        try {
-            Query query = entityManager.createNamedQuery("AiEntity.findAisCredit");
-            query.setParameter("Id", Id);
-
-            int entitys = (int) query.getSingleResult();
-
-            return entitys;
 
         } catch (NoResultException e) {
             return null;

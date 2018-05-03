@@ -27,8 +27,6 @@ package controller;
  */
 
 import dao.DBManager;
-import javafx.scene.control.Label;
-import modell.GameMaster;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,9 +38,6 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static controller.MainFXMLController.aiEntity;
-import static controller.MainFXMLController.playerEntity;
 
 public class MainMenuController implements Initializable {
 
@@ -66,9 +61,6 @@ public class MainMenuController implements Initializable {
     }
 
     public void getOff(ActionEvent event) {
-        DB_MANAGER.save(playerEntity);
-        DB_MANAGER.save(aiEntity);
-
         Platform.exit();
     }
 
