@@ -27,12 +27,17 @@ package controller;
  */
 
 import dao.DBManager;
+import dao.PlayerEntity;
+import dao.PlayerEntityDAO;
+import dao.PlayerEntityDAOImpl;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -41,7 +46,13 @@ import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
 
+    public static PlayerEntity playerEntity = new PlayerEntity();
+
+    public static String NEVEM;
+
     private static final DBManager DB_MANAGER = DBManager.getDpInstance();
+
+    static PlayerEntityDAOImpl playerEntityDAO = PlayerEntityDAOImpl.getPlayerEntityDAOImpl();
 
     @FXML
     private AnchorPane MainPane;
@@ -52,7 +63,14 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button PlayButton;
 
+    @FXML
+    private TextField myName;
+
+    @FXML
+    private Button submitButton;
+
     private final Integer BASE_CREDIT = 5000;
+
 
     @FXML
     public void letsStart(ActionEvent actionEvent) throws IOException {
@@ -65,4 +83,17 @@ public class MainMenuController implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) { }
+
+    @FXML
+    public void submitButtonAction(ActionEvent actionEvent) {
+        NEVEM = myName.getText();
+        playerEntity.setmyName(NEVEM);
+        PlayButton.setDisable(false);
+        if (playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == null) {
+            playerEntity.setCredit(5000);
+            //MainFXMLController.aiCreditAmount = 5000;
+        }
+        playerEntityDAO.save(playerEntity);
+
+    }
 }

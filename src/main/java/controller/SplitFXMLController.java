@@ -1,5 +1,31 @@
 package controller;
 
+/*-
+ * #%L
+ * BlackJack
+ * %%
+ * Copyright (C) 2018 University of Debrecen
+ * %%
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ * #L%
+ */
+
 import dao.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -150,7 +176,7 @@ public class SplitFXMLController implements Initializable {
         HintButton.setDisable(true);
         PassButton.setDisable(true);
 
-        myCredit.setText("" + (playerEntityDAOimpl.findPlayersCredit(playerEntity.getId()) - betsValue / 2));
+        myCredit.setText("" + (MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) - betsValue / 2));
         aiCredit.setText("" + (aiCreditAmount - betsValue / 2));
 
         Bets.setText("" + betsValue * 2);
@@ -195,11 +221,12 @@ public class SplitFXMLController implements Initializable {
         HintAiHand();
         Image img1 = new Image(getClass().getClassLoader().getResource("pictures/" +aiFirstCard + ".png").toString());
         img01.setImage(img1);
-        WinnerDeal();
-        whoWon();
-        HintButton.setDisable(true);
         PassButton.setDisable(true);
         reMatch.setVisible(true);
+        ConcedeButton.setDisable(false);
+        HintAiHand();
+        WinnerDeal();
+        whoWon();
     }
 
     @FXML
@@ -212,15 +239,8 @@ public class SplitFXMLController implements Initializable {
             aiCreditAmount += bet;
 
             aiCredit.setText("" + aiCreditAmount);
-            Bets.setText("");
 
             HintButton.setDisable(true);
-            PassButton.setDisable(true);
-            reMatch.setVisible(true);
-            ConcedeButton.setDisable(false);
-            HintAiHand();
-            WinnerDeal();
-            whoWon();
         }
     }
 
@@ -434,34 +454,40 @@ public class SplitFXMLController implements Initializable {
         }
     }
 
-    private void WinnerDeal(){
-        int bet = parseInt(Bets.getText());
+    private void WinnerDeal() {
+        //int bet = parseInt(Bets.getText());
 
         int myPont = parseInt(myScore.getText());
         int myPont2 = parseInt(myScore02.getText());
         int aiPont = parseInt(aiScore.getText());
 
-        if (myPont > aiPont && myPont <= 21) {
-            playerEntity.setCredit(playerEntityDAOimpl.findPlayersCredit(playerEntity.getId()) + bet);
-            playerEntityDAOimpl.save(playerEntity);
+        if ((myPont > aiPont && myPont <= 21) || (myPont2 > aiPont && myPont2 <= 21)) {
+            playerEntity.setCredit(MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + betsValue);
+            MainMenuController.playerEntityDAO.save(playerEntity);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setContentText(":)");
             alert.showAndWait();
         } else {
-            if (aiPont == myPont) {
-                aiCreditAmount += bet;
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("RESULT");
-                alert.setContentText(":(");
-                alert.showAndWait();
-            } else if(aiPont > myPont  && aiPont <= 21) {
-                aiCreditAmount += bet;
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("RESULT");
-                alert.setContentText(":(");
-                alert.showAndWait();
+
+            if ((myPont < aiPont && aiPont <= 21) && (myPont2 < aiPont && aiPont <= 21)) {
+                aiCreditAmount += betsValue;
+                Alert alert02 = new Alert(Alert.AlertType.INFORMATION);
+                alert02.setTitle("RESULT");
+                alert02.setContentText(":(");
+                alert02.showAndWait();
+
+            } else {
+
+                if (aiPont == myPont) {
+                    aiCreditAmount += betsValue;
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("RESULT");
+                    alert.setContentText(":(");
+                    alert.showAndWait();
+                }
             }
+
         }
     }
 
@@ -473,7 +499,7 @@ public class SplitFXMLController implements Initializable {
 
     private void whoWon() {
 
-        if (playerEntityDAOimpl.findPlayersCredit(playerEntity.getId()) == 0) {
+        if (MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setHeaderText("You lost!");

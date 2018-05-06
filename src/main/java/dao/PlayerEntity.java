@@ -35,8 +35,9 @@ import java.io.Serializable;
 @Entity
 @Table(name = "PLAYER", schema = "MY_OWN_SCHEMA")
 @NamedQueries({
-        @NamedQuery(name = "PlayerEntity.findPlayersCredit", query = "SELECT e.credit FROM PlayerEntity e where e.Id = :Id"),
-        @NamedQuery(name = "PlayerEntity.findMaxCredit", query = "SELECT MAX(e.credit) FROM PlayerEntity e where e.Id = :Id")
+        @NamedQuery(name = "PlayerEntity.findPlayersCredit", query = "SELECT e.credit FROM PlayerEntity e where e.myname = :myname"),
+        @NamedQuery(name = "PlayerEntity.findMaxCredit", query = "SELECT MAX(e.credit) FROM PlayerEntity e where e.Id = :Id"),
+        @NamedQuery(name = "PlayerEntity.findPlayerbyName", query = "SELECT e FROM PlayerEntity e where e.myname = :myname")
 })
 
 /**
@@ -95,6 +96,24 @@ public class PlayerEntity implements Serializable{
      */
     @Column(name = "CREDIT")
     private Integer credit;
+
+    /**
+     * Representing Player's name in the database.
+     */
+    @Column(name = "MYNAME", unique = true, nullable = false)
+    private String myname;
+
+    /**
+     * Getter for name variable.
+     */
+    public String getMyname(){ return this.myname; }
+
+    /**
+     * Setter for name variable.
+     *
+     * @param name
+     */
+    public void setmyName(String name){ this.myname = name; }
 
     /**
      * Representing Player's maximum credit

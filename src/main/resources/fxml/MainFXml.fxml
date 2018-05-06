@@ -43,14 +43,14 @@
                         <ImageView fx:id="img18" fitHeight="85.0" fitWidth="60.0" layoutX="236.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" rotate="30" />
                         <Label fx:id="myScore" layoutX="911.0" layoutY="14.0" prefHeight="38.0" prefWidth="60.0" />
                         <Button fx:id="StartButton" layoutX="440.0" layoutY="18.0" mnemonicParsing="false" onAction="#letsPlay" prefHeight="31.0" prefWidth="67.0" text="Start" />
-                        <Label layoutX="858.0" layoutY="23.0" prefHeight="21.0" prefWidth="42.0" text="You:" />
+                        <Label fx:id="myName" layoutX="858.0" layoutY="23.0" prefHeight="21.0" prefWidth="42.0" />
                         <ImageView fx:id="Credit02" fitHeight="31.0" fitWidth="35.0" layoutX="865.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="myCredit" layoutX="911.0" layoutY="61.0" prefHeight="38.0" prefWidth="60.0" />
                         <Button fx:id="BetButton" layoutX="6.0" layoutY="8.0" mnemonicParsing="false" onAction="#Betting" prefHeight="31.0" prefWidth="60.0" text="Bet" />
                         <TextField fx:id="bettingField" layoutX="79.0" layoutY="8.0" />
                         <Button fx:id="reMatch" layoutX="870.0" layoutY="151.0" mnemonicParsing="false" onAction="#reMatchAction" prefHeight="31.0" prefWidth="96.0" text="Rematch" />
                   <Label fx:id="maxCredit" layoutX="873.0" layoutY="113.0" prefHeight="21.0" prefWidth="67.0" />
-                  <Button fx:id="splitButton" layoutX="274.0" layoutY="8.0" mnemonicParsing="false" text="Split" onAction="#splitButtonAction"/>
+                  <Button fx:id="splitButton" layoutX="274.0" layoutY="8.0" mnemonicParsing="false" onAction="#splitButtonAction" text="Split" />
                     </children>
                 </AnchorPane>
             </items>
