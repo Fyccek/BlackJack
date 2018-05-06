@@ -12,11 +12,11 @@
       <Button fx:id="ExitButton" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" onAction="#getOff" prefHeight="37.0" prefWidth="90.0" text="Exit" />
       <Label fx:id="highScore" layoutX="762.0" layoutY="43.0" prefHeight="32.0" prefWidth="100.0" textFill="WHITE" />
       <TextField fx:id="myName" layoutX="413.0" layoutY="28.0" />
-      <Label layoutX="349.0" layoutY="29.0" prefHeight="30.0" prefWidth="64.0" text="Name:">
+      <Label fx:id="nameLabel" layoutX="349.0" layoutY="29.0" prefHeight="30.0" prefWidth="64.0" text="Name:">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="submitButton" layoutX="609.0" layoutY="28.0" mnemonicParsing="false" text="Submit" onAction="#submitButtonAction" />
+      <Button fx:id="submitButton" layoutX="609.0" layoutY="28.0" mnemonicParsing="false" onAction="#submitButtonAction" text="Submit" />
     </children>
 </AnchorPane>

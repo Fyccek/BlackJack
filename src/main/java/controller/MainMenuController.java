@@ -69,6 +69,9 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button submitButton;
 
+    @FXML
+    private Label nameLabel;
+
     private final Integer BASE_CREDIT = 5000;
 
 
@@ -87,12 +90,19 @@ public class MainMenuController implements Initializable {
     @FXML
     public void submitButtonAction(ActionEvent actionEvent) {
         NEVEM = myName.getText();
-        playerEntity.setmyName(NEVEM);
-        PlayButton.setDisable(false);
-        if (playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == null) {
+        playerEntity = playerEntityDAO.findPlayerbyName(NEVEM);
+
+        if(playerEntity == null) {
+
+            playerEntity = new PlayerEntity();
+            playerEntity.setmyName(NEVEM);
             playerEntity.setCredit(5000);
-            //MainFXMLController.aiCreditAmount = 5000;
         }
+
+        PlayButton.setDisable(false);
+        submitButton.setVisible(false);
+        myName.setVisible(false);
+        nameLabel.setVisible(false);
         playerEntityDAO.save(playerEntity);
 
     }
