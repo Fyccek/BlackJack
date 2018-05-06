@@ -150,7 +150,7 @@ public class SplitFXMLController implements Initializable {
         HintButton.setDisable(true);
         PassButton.setDisable(true);
 
-        myCredit.setText("" + (DB_MANAGER.findPlayersCredit(playerEntity.getId()) - betsValue / 2));
+        myCredit.setText("" + (playerEntityDAOimpl.findPlayersCredit(playerEntity.getId()) - betsValue / 2));
         aiCredit.setText("" + (aiCreditAmount - betsValue / 2));
 
         Bets.setText("" + betsValue * 2);
@@ -442,8 +442,8 @@ public class SplitFXMLController implements Initializable {
         int aiPont = parseInt(aiScore.getText());
 
         if (myPont > aiPont && myPont <= 21) {
-            playerEntity.setCredit(DB_MANAGER.findPlayersCredit(playerEntity.getId()) + bet);
-            DB_MANAGER.save(playerEntity);
+            playerEntity.setCredit(playerEntityDAOimpl.findPlayersCredit(playerEntity.getId()) + bet);
+            playerEntityDAOimpl.save(playerEntity);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setContentText(":)");
@@ -473,7 +473,7 @@ public class SplitFXMLController implements Initializable {
 
     private void whoWon() {
 
-        if (DB_MANAGER.findPlayersCredit(playerEntity.getId()) == 0) {
+        if (playerEntityDAOimpl.findPlayersCredit(playerEntity.getId()) == 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setHeaderText("You lost!");

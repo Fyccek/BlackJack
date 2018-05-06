@@ -49,7 +49,7 @@ public class DBManager {
     /**
      * EntityManager instance.
      */
-    private EntityManager entityManager;
+    public static EntityManager entityManager;
 
     /**
      * Private constructor..
@@ -95,76 +95,4 @@ public class DBManager {
 
         LOGGER.trace("Disconnect is OK.. ");
     }
-
-    /**
-     * Save a PlayerEntity in the database:
-     *      -If the entity's Id is {@code null} then create new entity (persist).
-     *      -Any other case we need merge.
-     *
-     * @param entity to save.
-     *
-     * @return  saved entity.
-     */
-    public PlayerEntity save(PlayerEntity entity){
-        if(!connected()){
-            throw new IllegalStateException("No connection!");
-        }
-
-        if(entity == null){
-            throw new IllegalArgumentException("Entity is null!");
-        }
-
-        entityManager.getTransaction().begin();
-
-        if(entity.getId() == null){
-            entityManager.persist(entity);
-        } else { entityManager.merge(entity);}
-
-        entityManager.getTransaction().commit();
-
-        return entity;
-    }
-
-    /**
-     * Delete a PlayerEntity from the database.
-     *
-     * @param entity we want to delete.
-     */
-    public void delete(PlayerEntity entity){
-        if(!connected()){
-            throw new IllegalStateException("No connection!");
-        }
-
-        if(entity == null){
-            throw new IllegalArgumentException("Entity is null!");
-        }
-
-        PlayerEntity delEntity = entityManager.find(PlayerEntity.class, entity.getId());
-
-        entityManager.getTransaction().begin();
-        entityManager.remove(delEntity);
-        entityManager.getTransaction().commit();
-    }
-
-
-    public Integer findPlayersCredit(Long Id) {
-
-        if (!connected()) {
-            throw new IllegalStateException("No database connection!");
-        }
-
-        try {
-            Query query = entityManager.createNamedQuery("PlayerEntity.findPlayersCredit");
-            query.setParameter("Id", Id);
-
-            int entitys = (int) query.getSingleResult();
-
-            return entitys;
-
-
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
 }
