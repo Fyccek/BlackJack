@@ -172,6 +172,7 @@ public class MainFXMLController implements Initializable {
     public static int myHandsValue;
     public static int betsValue;
     public static int aiHandsValue;
+    public static String aiFirstCard;
 
     public void initialize(URL location, ResourceBundle resources) {
         HintButton.setDisable(true);
@@ -204,8 +205,8 @@ public class MainFXMLController implements Initializable {
         Credit01.setImage(img);
         Credit02.setImage(img);
 
-        myCredit.setText(": " + playerEntity.getCredit());
-        aiCredit.setText(": " + this.gameMaster.getAi().getCredit());
+        myCredit.setText("" + playerEntity.getCredit());
+        aiCredit.setText("" + this.gameMaster.getAi().getCredit());
 
     }
 
@@ -223,6 +224,7 @@ public class MainFXMLController implements Initializable {
         myHandsValue = this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getPlayer().getHandCard(0));
         betsValue = parseInt(Bets.getText());
         aiHandsValue = this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getAi().getHandCard(0));
+        aiFirstCard = this.gameMaster.getAi().getHandCard(0);
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/Split.fxml"));
         Desk.getChildren().setAll(pane);
     }
@@ -233,7 +235,7 @@ public class MainFXMLController implements Initializable {
         if(parseInt(myScore.getText()) > 21) {
             int bet = parseInt(Bets.getText());
             aiCreditAmount += bet;
-            aiCredit.setText(": " + aiCreditAmount);
+            aiCredit.setText("" + aiCreditAmount);
             Bets.setText("");
             HintButton.setDisable(true);
             PassButton.setDisable(true);
@@ -260,6 +262,7 @@ public class MainFXMLController implements Initializable {
         PassButton.setDisable(false);
 
         imgStaticAi = img01.getImage();
+
         imgStaticPlayer1 = img11.getImage();
         imgStaticPlayer2 = img12.getImage();
 
@@ -315,15 +318,19 @@ public class MainFXMLController implements Initializable {
             alert.showAndWait();
         }
 
-        myCredit.setText(": " + DB_MANAGER.findPlayersCredit(playerEntity.getId()));
-        aiCredit.setText(": " + aiCreditAmount);
+        myCredit.setText("" + DB_MANAGER.findPlayersCredit(playerEntity.getId()));
+        aiCredit.setText("" + aiCreditAmount);
 
         whoWon();
     }
 
     @FXML
     public void reMatchAction(ActionEvent event) throws IOException {
-        if(aiCreditAmount <= 0){ aiCreditAmount = BASE_CREDIT; }
+        if(parseInt(aiCredit.getText()) == 0 || parseInt(myCredit.getText()) == 0) {
+            aiCreditAmount = 5000;
+            playerEntity.setCredit(5000);
+        }
+        DB_MANAGER.save(playerEntity);
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainFXml.fxml"));
         Desk.getChildren().setAll(pane);
     }
@@ -369,8 +376,8 @@ public class MainFXMLController implements Initializable {
             aiCreditAmount = aiCreditAmount - bet;
             Bets.setText("" + bet * 2);
 
-            myCredit.setText(": " + DB_MANAGER.findPlayersCredit(playerEntity.getId()));
-            aiCredit.setText(": " + aiCreditAmount);
+            myCredit.setText("" + DB_MANAGER.findPlayersCredit(playerEntity.getId()));
+            aiCredit.setText("" + aiCreditAmount);
         }
         }
 

@@ -143,8 +143,10 @@ public class WinnerCalc {
                         }
                     }
                 } sum += seged; seged = 0;
-                if(sum > 21 && hand[i].endsWith("A")){
-                    sum -= 10;
+                for (int j = 0; j < hand.length; j++) {
+                    if (sum > 21 && hand[j].endsWith("A")) {
+                        sum -= 10;
+                    }
                 }
 	        }
 	        return sum;

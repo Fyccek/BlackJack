@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import modell.GameMaster;
 import modell.Player;
 
@@ -158,10 +159,15 @@ public class SplitFXMLController implements Initializable {
 
         myScore.setText("" + myHandsValue);
         myScore02.setText("" + myHandsValue);
+        aiScore.setText("" + aiHandsValue);
     }
 
     @FXML
     public void reMatchAction(ActionEvent actionEvent) throws IOException {
+        if(parseInt(aiCredit.getText()) == 0 || parseInt(myCredit.getText()) == 0) {
+            aiCreditAmount = 5000;
+            playerEntity.setCredit(5000);
+        }
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainFXml.fxml"));
         Split.getChildren().setAll(pane);
     }
@@ -187,7 +193,13 @@ public class SplitFXMLController implements Initializable {
     public void PassButtonAction(ActionEvent actionEvent) {
 
         HintAiHand();
+        Image img1 = new Image(getClass().getClassLoader().getResource("pictures/" +aiFirstCard + ".png").toString());
+        img01.setImage(img1);
         WinnerDeal();
+        whoWon();
+        HintButton.setDisable(true);
+        PassButton.setDisable(true);
+        reMatch.setVisible(true);
     }
 
     @FXML
@@ -199,16 +211,17 @@ public class SplitFXMLController implements Initializable {
             int bet = parseInt(Bets.getText());
             aiCreditAmount += bet;
 
-            aiCredit.setText(": " + aiCreditAmount);
+            aiCredit.setText("" + aiCreditAmount);
             Bets.setText("");
 
             HintButton.setDisable(true);
             PassButton.setDisable(true);
             reMatch.setVisible(true);
             ConcedeButton.setDisable(false);
+            HintAiHand();
+            WinnerDeal();
+            whoWon();
         }
-
-        WinnerDeal();
     }
 
     @FXML
@@ -428,7 +441,7 @@ public class SplitFXMLController implements Initializable {
         int myPont2 = parseInt(myScore02.getText());
         int aiPont = parseInt(aiScore.getText());
 
-        if (myPont > aiPont && myPont < 21) {
+        if (myPont > aiPont && myPont <= 21) {
             playerEntity.setCredit(DB_MANAGER.findPlayersCredit(playerEntity.getId()) + bet);
             DB_MANAGER.save(playerEntity);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -442,7 +455,7 @@ public class SplitFXMLController implements Initializable {
                 alert.setTitle("RESULT");
                 alert.setContentText(":(");
                 alert.showAndWait();
-            } else {
+            } else if(aiPont > myPont  && aiPont <= 21) {
                 aiCreditAmount += bet;
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("RESULT");
