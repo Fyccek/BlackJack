@@ -43,7 +43,6 @@ import java.io.Serializable;
 /**
  * PlayerEntity represents an entity for JPA.
  */
-@Data
 @EqualsAndHashCode
 @ToString(callSuper = true)
 public class PlayerEntity implements Serializable{
