@@ -95,7 +95,7 @@ public class Player {
      * @param plus , amount of changing.
      *
      * */
-    public void PlusBet(int plus) {
+    public void PlusBet(int plus){
         this.bet += plus;
 
         LOGGER.info("Player's bet has been changed.");
