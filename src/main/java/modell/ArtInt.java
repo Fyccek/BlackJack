@@ -107,35 +107,35 @@ public class ArtInt {
 	public void setCredit(int credit) {
 		this.credit = credit;
 		
-		LOGGER.info("AI's credit have been set to: ", this.getCredit());
+		LOGGER.info("AI's setter for credit");
 	}
 
 	/**
      * Setter method for bet variable.
      *
-     * @param bet
+     * @param bet amount of bet for set.
      * */
 	public void setBet(int bet) {
 		this.bet = bet;
-		
-		LOGGER.info("AI's bet have been modified to: ", this.getBet());
+
+		LOGGER.info("AI's setter for bet");
 	}
 
 	/**
      * Setter method for hand variable.
      *
-     * @param hand
+     * @param hand hand of ai object.
      * */
 	public void setHand(String[] hand) {
 		this.hand = hand;
 		
-		LOGGER.info("AI's hand have been set to: ", (Object)this.getHand());
+		LOGGER.info("AI's setter for hand");
 	}
 
     /**
      * Method for change the bet.
      *
-     * @param plus , amount of changing.
+     * @param plus amount of changing.
      *
      * */
 	public void plusBet(int plus){
@@ -151,8 +151,7 @@ public class ArtInt {
     public void plusCredit(int plus){
         this.credit += plus;
 
-        LOGGER.info("An AI's credit have been set by: ", plus);
-        LOGGER.info("A AI's credit have been set to: ", this.getCredit());
+        LOGGER.info("An AI's credit have been changed");
     }
 
     /**
@@ -161,7 +160,7 @@ public class ArtInt {
      * @param i, the position.
      **/
     public String getHandCard(int i){
-        LOGGER.info("The " + i + ". card have been get.");
+        LOGGER.info("Get one card from i. position.");
         return this.hand[i];
     }
 

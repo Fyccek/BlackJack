@@ -26,11 +26,20 @@ package modell;
  * #L%
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * WinnerCalc class for calculate the winner of the game.
  *
  * */
 public class WinnerCalc {
+
+    /**
+     * Logger instance for logging.
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(WinnerCalc.class);
 
     /**
      * Temporary variable to help to calculate the winner.
@@ -72,6 +81,8 @@ public class WinnerCalc {
 	        if(calculateCardsValue(hand1) == 21 && calculateCardsValue(hand2) == 21){
 	            return -1;
 	        }
+
+	        LOGGER.info("Winner has been calculated.");
 	        return 0;
 	    }
 
@@ -143,12 +154,14 @@ public class WinnerCalc {
                         }
                     }
                 } sum += seged; seged = 0;
-                for (int j = 0; j < 9; j++) {
+                for (int j = 0; j < hand.length; j++) {
                     if (sum > 21 && hand[j].endsWith("A")) {
                         sum -= 10;
                     }
                 }
 	        }
+
+            LOGGER.info("Hands's value has been calculated.");
 	        return sum;
 		}
 
@@ -213,6 +226,8 @@ public class WinnerCalc {
                     }
                 }
             }
+
+        LOGGER.info("A card's value has been calculated.");
         return seged;
     }
 }

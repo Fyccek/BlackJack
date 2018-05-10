@@ -83,7 +83,9 @@ public class Player {
      *
      * */
     public void setCard(String card, int i){
+
         this.hand[i] = card;
+        LOGGER.info("Player's setter for card.");
     }
 
 
@@ -96,7 +98,7 @@ public class Player {
     public void PlusBet(int plus){
         this.bet += plus;
 
-        LOGGER.info("A player's bet have been changed to: ", this.getBet());
+        LOGGER.info("Player's bet has been changed.");
 
     }
 
@@ -109,8 +111,7 @@ public class Player {
     public void PlusCredit(int plus){
         this.credit += plus;
         
-        LOGGER.info("A player's credit have been set by: ", plus);
-        LOGGER.info("A player's credit have been set to: ", this.getCredit());
+        LOGGER.info("Player's credit have been changed.");
     }
 
     /**
@@ -122,7 +123,7 @@ public class Player {
     public void setCredit(int credit) {
         this.credit = credit;
         
-        LOGGER.info("A player's credit have been set to: {}", this.getCredit());
+        LOGGER.info("Player's setter for credit");
 
     }
 
@@ -134,7 +135,7 @@ public class Player {
     public void setHand(String[] hand) {
         this.hand = hand;
 
-        LOGGER.info("Player's hand have been set to: ", (Object)this.getHand());
+        LOGGER.info("Player's setter for hand.");
     }
 
     /**
@@ -186,7 +187,6 @@ public class Player {
      * @param i, the position.
      **/
     public String getHandCard(int i){
-        LOGGER.info("The " + i + ". card have been get.");
         return this.hand[i];
     }
 }

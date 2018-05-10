@@ -66,7 +66,7 @@ public class MainApp extends Application {
 
             launch(args);
         } catch (Exception e) {
-            LOGGER.error("Adatbázis csatlakozási hiba", e);
+            LOGGER.error("Connection error..");
         } finally {
             DB_MANAGER.disconnectDB();
 

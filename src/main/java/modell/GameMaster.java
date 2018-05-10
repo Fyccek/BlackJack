@@ -26,12 +26,20 @@ package modell;
  * #L%
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The GameMaster class represent a higher entity in the poker game,
  * hoes duty is to watch over the rules, and decides who wins.
  *
  */
 public class GameMaster {
+
+    /**
+     * Logger instance for logging.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameMaster.class);
 
     /**
      * Variable to contain the minimum bet.
@@ -99,7 +107,10 @@ public class GameMaster {
      *
      * @param minbet
      * */
-    public void setMinBet(int minbet) {this.minBet = minbet;}
+    public void setMinBet(int minbet) {
+        this.minBet = minbet;
+        LOGGER.info("Minimum bet has been set");
+    }
 
     /**
      * Getter for minBet variable

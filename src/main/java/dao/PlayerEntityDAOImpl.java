@@ -37,6 +37,7 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
 
     /**
      * Logger instance for logging.
+     *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DBManager.class.getName());
 
@@ -49,6 +50,7 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
      * Method for get the PlayerEntityDAOImpl object.
      *
      * @return playerEntityDAOimpl object.
+     *
      * */
     public static PlayerEntityDAOImpl getPlayerEntityDAOImpl(){
         return playerEntityDAOimpl;
@@ -59,11 +61,10 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
      * */
     private PlayerEntityDAOImpl(){}
 
-
     /**
      * Method to find a player's credit by Id.
      *
-     * @param myname
+     * @param myname the name of the entity.
      *
      * @return credit of the player.
      * */
@@ -79,6 +80,7 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
 
 
         } catch (NoResultException e) {
+            LOGGER.error("Entity not found by name.");
             return null;
         }
     }
@@ -106,9 +108,9 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
      *      -If the entity's Id is {@code null} then create new entity (persist).
      *      -Any other case we need merge.
      *
-     * @param entity to save.
+     * @param entity we want to save.
      *
-     * @return  saved entity.
+     * @return saved entity.
      */
     @Override
     public PlayerEntity save(PlayerEntity entity) {
@@ -127,6 +129,15 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
         return entity;
     }
 
+    /**
+     * Save a PlayerEntity in the database:
+     *      -If the entity's Id is {@code null} then create new entity (persist).
+     *      -Any other case we need merge.
+     *
+     * @param myname name of the entity to find.
+     *
+     * @return saved entity.
+     */
     @Override
     public PlayerEntity findPlayerbyName(String myname) {
         try {
@@ -139,6 +150,7 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
 
 
         } catch (NoResultException e) {
+            LOGGER.error("Entity not found by name.");
             return null;
         }
     }

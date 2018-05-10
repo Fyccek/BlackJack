@@ -98,20 +98,21 @@ public class Dealer {
     /**
      * Deal a card to a Player after shuffled the deck.
      *
-     * @param player , a player for deal to.
-     * @param position, the position of the dealt card.
+     * @param player a player for deal to.
+     * @param position the position of the dealt card.
      *
      * */
     public void dealToPlayer(Player player, int position) {
         Collections.shuffle(deck);
         player.setCard(Dealer.deck.remove(deck.size() - 1), position);
+        LOGGER.info("A card have been dealt to player");
     }
 
     /**
      * Deal a card to an AI after shuffled the deck.
      *
-     * @param ai , a player for deal to.
-     * @param position, the position of the dealt card.
+     * @param ai a player for deal to.
+     * @param position the position of the dealt card.
      *
      * */
     public void dealToAi(ArtInt ai, int position){
@@ -123,6 +124,7 @@ public class Dealer {
 
     /**
      * Shuffle the deck of cards.
+     *
      * */
     public void shuffle(){
         String seged;

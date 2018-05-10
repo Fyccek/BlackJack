@@ -185,7 +185,7 @@ public class SplitFXMLController implements Initializable {
 
         myScore.setText("" + myHandsValue);
         myScore02.setText("" + myHandsValue);
-        aiScore.setText("" + aiHandsValue);
+        aiScore.setText("" + 0);
     }
 
     @FXML
@@ -224,6 +224,7 @@ public class SplitFXMLController implements Initializable {
         PassButton.setDisable(true);
         reMatch.setVisible(true);
         ConcedeButton.setDisable(false);
+        //aiScore.setText("" + (this.gameMaster.getHandValue(this.gameMaster.getAi().getHand() ) +aiHandsValue));
         HintAiHand();
         WinnerDeal();
         whoWon();
@@ -234,6 +235,10 @@ public class SplitFXMLController implements Initializable {
 
         HintPlayerHand(this.gameMaster.getPlayer());
         if(parseInt(myScore.getText()) > 21) {
+            HintButton.setDisable(true);
+        }
+
+        if(parseInt(myScore.getText()) > 21 && parseInt(myScore02.getText()) > 21) {
 
             int bet = parseInt(Bets.getText());
             aiCreditAmount += bet;
@@ -339,40 +344,40 @@ public class SplitFXMLController implements Initializable {
     private void setAiCardIm(int position, ImageView imageView){
         Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getAi().getHand()[position] + ".png").toString());
         imageView.setImage(image1);
-        aiScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()));
+        aiScore.setText("" + (this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()) + aiHandsValue));
     }
 
     private void HintAiHand() {
 
-                if (aiPosition == 0 && parseInt(aiScore.getText()) < 17) {
+        if (aiPosition == 0 && (parseInt(aiScore.getText()) ) < 17) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img03);
                     ++aiPosition;
                 }
 
-                if (aiPosition == 1 && parseInt(aiScore.getText()) < 17 ) {
+                if (aiPosition == 1 && (parseInt(aiScore.getText())  ) < 17) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img04);
                     ++aiPosition;
                 }
 
-                if (aiPosition == 2 && parseInt(aiScore.getText()) < 17) {
+                if (aiPosition == 2 && (parseInt(aiScore.getText()) ) < 17) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img05);
                     ++aiPosition;
                 }
 
-                if (aiPosition == 3 && parseInt(aiScore.getText()) < 17) {
+                if (aiPosition == 3 && (parseInt(aiScore.getText()) ) < 17) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img06);
                     ++aiPosition;
                 }
 
-                if (aiPosition == 4 && parseInt(aiScore.getText()) < 17) {
+                if (aiPosition == 4 && (parseInt(aiScore.getText()) ) < 17 ) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img07);
@@ -470,7 +475,7 @@ public class SplitFXMLController implements Initializable {
             alert.showAndWait();
         } else {
 
-            if ((myPont < aiPont && aiPont <= 21) && (myPont2 < aiPont && aiPont <= 21)) {
+            if (myPont < aiPont && aiPont <= 21 && myPont2 < aiPont) {
                 aiCreditAmount += betsValue;
                 Alert alert02 = new Alert(Alert.AlertType.INFORMATION);
                 alert02.setTitle("RESULT");
@@ -479,7 +484,7 @@ public class SplitFXMLController implements Initializable {
 
             } else {
 
-                if (aiPont == myPont) {
+                if (aiPont == myPont || aiPont == myPont2) {
                     aiCreditAmount += betsValue;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("RESULT");
@@ -487,7 +492,6 @@ public class SplitFXMLController implements Initializable {
                     alert.showAndWait();
                 }
             }
-
         }
     }
 

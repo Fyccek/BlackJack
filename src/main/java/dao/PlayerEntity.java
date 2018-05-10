@@ -36,7 +36,6 @@ import java.io.Serializable;
 @Table(name = "PLAYER", schema = "MY_OWN_SCHEMA")
 @NamedQueries({
         @NamedQuery(name = "PlayerEntity.findPlayersCredit", query = "SELECT e.credit FROM PlayerEntity e where e.myname = :myname"),
-        @NamedQuery(name = "PlayerEntity.findMaxCredit", query = "SELECT MAX(e.credit) FROM PlayerEntity e where e.Id = :Id"),
         @NamedQuery(name = "PlayerEntity.findPlayerbyName", query = "SELECT e FROM PlayerEntity e where e.myname = :myname")
 })
 
@@ -56,6 +55,25 @@ public class PlayerEntity implements Serializable{
     private Long Id;
 
     /**
+     * Representing Player's maximum credit
+     * in the database in one game.
+     */
+    @Column(name = "MAX_CREDIT")
+    private Integer maxCredit;
+
+    /**
+     * Representing Player's credit in the database.
+     */
+    @Column(name = "CREDIT")
+    private Integer credit;
+
+    /**
+     * Representing Player's name in the database.
+     */
+    @Column(name = "MYNAME", unique = true, nullable = false)
+    private String myname;
+
+    /**
      * Getter for Id variable.
      */
     public Long getId() {
@@ -65,7 +83,7 @@ public class PlayerEntity implements Serializable{
     /**
      * Setter for credit variable.
      *
-     * @param amount
+     * @param amount amount of credit we want to set.
      */
     public void setCredit(Integer amount) {
         this.credit = amount;
@@ -84,25 +102,6 @@ public class PlayerEntity implements Serializable{
     public Integer getMaxCredit(){ return this.maxCredit; }
 
     /**
-     * Setter for credit variable.
-     *
-     * @param amount
-     */
-    public void setMaxCredit(Integer amount){ this.maxCredit = amount; }
-
-    /**
-     * Representing Player's credit in the database.
-     */
-    @Column(name = "CREDIT")
-    private Integer credit;
-
-    /**
-     * Representing Player's name in the database.
-     */
-    @Column(name = "MYNAME", unique = true, nullable = false)
-    private String myname;
-
-    /**
      * Getter for name variable.
      */
     public String getMyname(){ return this.myname; }
@@ -110,15 +109,8 @@ public class PlayerEntity implements Serializable{
     /**
      * Setter for name variable.
      *
-     * @param name
+     * @param name name we want to set.
      */
     public void setmyName(String name){ this.myname = name; }
-
-    /**
-     * Representing Player's maximum credit
-     * in the database in one game.
-     */
-    @Column(name = "MAX_CREDIT")
-    private Integer maxCredit;
 
 }

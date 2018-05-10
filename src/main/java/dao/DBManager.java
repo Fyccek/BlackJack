@@ -82,7 +82,7 @@ public class DBManager {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bjDB");
         entityManager = entityManagerFactory.createEntityManager();
 
-        LOGGER.trace("Database connection is OK.. ");
+        LOGGER.info("Database connection is OK.. ");
     }
 
     /**
@@ -93,6 +93,6 @@ public class DBManager {
         entityManager.close();
         entityManager = null;
 
-        LOGGER.trace("Disconnect is OK.. ");
+        LOGGER.info("Disconnect is OK.. ");
     }
 }

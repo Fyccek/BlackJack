@@ -28,7 +28,6 @@ package controller;
 
 import dao.PlayerEntity;
 import dao.DBManager;
-import dao.PlayerEntityDAOImpl;
 import javafx.scene.control.Alert;
 import modell.GameMaster;
 import javafx.event.ActionEvent;
@@ -42,13 +41,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLOutput;
 import java.util.ResourceBundle;
-
 import static java.lang.Integer.parseInt;
 
 public class MainFXMLController implements Initializable {
@@ -198,7 +193,6 @@ public class MainFXMLController implements Initializable {
 
                 playerEntity.setCredit(BASE_CREDIT);
                 this.gameMaster.getAi().setCredit(BASE_CREDIT);
-                playerEntity.setMaxCredit(BASE_CREDIT);
             } else {
                 playerEntity.setCredit(MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
                 this.gameMaster.getAi().setCredit(aiCreditAmount);
@@ -207,7 +201,7 @@ public class MainFXMLController implements Initializable {
             MainMenuController.playerEntityDAO.save(playerEntity);
 
         } catch (NullPointerException e) {
-            System.out.println("szarosgeci");
+            e.printStackTrace();
         }
 
         Image img =

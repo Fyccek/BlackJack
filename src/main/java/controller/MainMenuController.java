@@ -85,10 +85,11 @@ public class MainMenuController implements Initializable {
         Platform.exit();
     }
 
-    public void initialize(URL location, ResourceBundle resources) { }
+    public void initialize(URL location, ResourceBundle resources) { PlayButton.setDisable(true); }
 
     @FXML
     public void submitButtonAction(ActionEvent actionEvent) {
+        PlayButton.setDisable(false);
         NEVEM = myName.getText();
         playerEntity = playerEntityDAO.findPlayerbyName(NEVEM);
 
