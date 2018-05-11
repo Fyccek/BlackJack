@@ -187,12 +187,6 @@
                     <linkJavadoc>true</linkJavadoc>
                 </configuration>
             </plugin>
-
-            <!--<plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.6.4.201312101107</version>
-            </plugin> -->
         </plugins>
     </reporting>
 

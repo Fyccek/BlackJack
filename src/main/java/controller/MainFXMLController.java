@@ -215,7 +215,7 @@ public class MainFXMLController implements Initializable {
         Credit01.setImage(img);
         Credit02.setImage(img);
 
-        myCredit.setText("" + playerEntity.getCredit());
+        myCredit.setText("" + MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
         aiCredit.setText("" + aiCreditAmount);
 
         myName.setText(playerEntity.getMyname());

@@ -161,7 +161,11 @@ public class SplitFXMLController implements Initializable {
     @FXML
     private ImageView img38;
 
-    private static final DBManager DB_MANAGER = DBManager.getDpInstance();
+    @FXML
+    private ImageView aiCreditPict;
+
+    @FXML
+    private ImageView playerCreditPict;
 
     GameMaster gameMaster = new GameMaster();
 
@@ -170,6 +174,13 @@ public class SplitFXMLController implements Initializable {
     int aiPosition;
 
     public void initialize(URL location, ResourceBundle resources) {
+
+        Image img =
+                new Image(getClass().getClassLoader()
+                        .getResource("pictures/zseton.png").toString());
+
+        aiCreditPict.setImage(img);
+        playerCreditPict.setImage(img);
 
         ConcedeButton.setVisible(false);
         reMatch.setVisible(false);
@@ -469,6 +480,7 @@ public class SplitFXMLController implements Initializable {
         if ((myPont > aiPont && myPont <= 21) || (myPont2 > aiPont && myPont2 <= 21)) {
             playerEntity.setCredit(MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + betsValue);
             MainMenuController.playerEntityDAO.save(playerEntity);
+            aiCreditAmount = parseInt(aiCredit.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setContentText(":)");
@@ -477,6 +489,8 @@ public class SplitFXMLController implements Initializable {
 
             if (myPont < aiPont && aiPont <= 21 && myPont2 < aiPont) {
                 aiCreditAmount += betsValue;
+                playerEntity.setCredit(parseInt(myCredit.getText()));
+                MainMenuController.playerEntityDAO.save(playerEntity);
                 Alert alert02 = new Alert(Alert.AlertType.INFORMATION);
                 alert02.setTitle("RESULT");
                 alert02.setContentText(":(");
@@ -486,6 +500,8 @@ public class SplitFXMLController implements Initializable {
 
                 if (aiPont == myPont || aiPont == myPont2) {
                     aiCreditAmount += betsValue;
+                    playerEntity.setCredit(parseInt(myCredit.getText()));
+                    MainMenuController.playerEntityDAO.save(playerEntity);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("RESULT");
                     alert.setContentText(":(");

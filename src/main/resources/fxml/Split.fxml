@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="Split" prefHeight="562.0" prefWidth="987.0" xmlns="http://javafx.com/javafx/8.0.141"  stylesheets="@../stylesheet/splitdxml.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SplitFXMLController">
+<AnchorPane fx:id="Split" prefHeight="562.0" prefWidth="987.0" stylesheets="@../stylesheet/splitdxml.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SplitFXMLController">
     <children>
         <SplitPane dividerPositions="0.5" layoutX="-1.0" layoutY="-4.0" orientation="VERTICAL" prefHeight="572.0" prefWidth="987.0">
             <items>
@@ -26,6 +26,7 @@
                         <Label fx:id="aiCredit" layoutX="911.0" layoutY="54.0" prefHeight="38.0" prefWidth="60.0" />
                         <Label fx:id="Bets" layoutX="466.0" layoutY="232.0" prefHeight="38.0" prefWidth="60.0" />
                         <Button fx:id="reMatch" layoutX="860.0" layoutY="236.0" mnemonicParsing="false" onAction="#reMatchAction" prefHeight="31.0" prefWidth="96.0" text="Rematch" />
+                  <ImageView fx:id="aiCreditPict" fitHeight="31.0" fitWidth="42.0" layoutX="852.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="985.0">
@@ -49,6 +50,7 @@
                                     <Button fx:id="HintButton" alignment="CENTER" layoutX="360.0" layoutY="56.0" mnemonicParsing="false" onAction="#hintButtonAction" text="Hint" />
                                     <Label layoutX="352.0" layoutY="94.0" prefHeight="21.0" prefWidth="42.0" text="You:" />
                                     <Label fx:id="myScore" layoutX="401.0" layoutY="91.0" prefHeight="38.0" prefWidth="60.0" />
+                              <ImageView fx:id="playerCreditPict" fitHeight="31.0" fitWidth="42.0" layoutX="364.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </AnchorPane>
                       <AnchorPane fx:id="player2Pane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
