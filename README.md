@@ -26,6 +26,7 @@
 
 - command: mvn test
 - Some simple JUnit test for modell classes.
+- One test for services.
 
 >Creating JAR:
 

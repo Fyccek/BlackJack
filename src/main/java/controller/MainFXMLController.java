@@ -43,6 +43,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.security.spec.PSSParameterSpec;
 import java.util.ResourceBundle;
 import static java.lang.Integer.parseInt;
 
@@ -65,6 +66,9 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     private AnchorPane Desk;
+
+    @FXML
+    private AnchorPane lowerDesk;
 
     @FXML
     private Button HintButton;
@@ -192,7 +196,7 @@ public class MainFXMLController implements Initializable {
                     || MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0 || aiCreditAmount == 0))) {
 
                 playerEntity.setCredit(BASE_CREDIT);
-                this.gameMaster.getAi().setCredit(BASE_CREDIT);
+                aiCreditAmount = BASE_CREDIT;
             } else {
                 playerEntity.setCredit(MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
                 this.gameMaster.getAi().setCredit(aiCreditAmount);
@@ -212,7 +216,7 @@ public class MainFXMLController implements Initializable {
         Credit02.setImage(img);
 
         myCredit.setText("" + playerEntity.getCredit());
-        aiCredit.setText("" + this.gameMaster.getAi().getCredit());
+        aiCredit.setText("" + aiCreditAmount);
 
         myName.setText(playerEntity.getMyname());
 
@@ -229,9 +233,9 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     public void splitButtonAction(ActionEvent actionEvent) throws IOException {
-        myHandsValue = this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getPlayer().getHandCard(0));
+        myHandsValue = this.gameMaster.getCardValue(this.gameMaster.getPlayer().getHandCard(0));
         betsValue = parseInt(Bets.getText());
-        aiHandsValue = this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getAi().getHandCard(0));
+        aiHandsValue = this.gameMaster.getCardValue(this.gameMaster.getAi().getHandCard(0));
         aiFirstCard = this.gameMaster.getAi().getHandCard(0);
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/Split.fxml"));
         Desk.getChildren().setAll(pane);
@@ -274,8 +278,8 @@ public class MainFXMLController implements Initializable {
         imgStaticPlayer1 = img11.getImage();
         imgStaticPlayer2 = img12.getImage();
 
-        if (this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getPlayer().getHandCard(0))
-                == this.gameMaster.getWinnerCalc().calculateCardValue(this.gameMaster.getPlayer().getHandCard(1))) {
+        if (this.gameMaster.getCardValue(this.gameMaster.getPlayer().getHandCard(0))
+                == this.gameMaster.getCardValue(this.gameMaster.getPlayer().getHandCard(1))) {
             splitButton.setVisible(true);
         }
 

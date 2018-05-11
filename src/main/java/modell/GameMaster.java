@@ -88,8 +88,8 @@ public class GameMaster {
     /**
      * Method for decide who wins.
      *
-     * @param player
-     * @param ai
+     * @param player the player.
+     * @param ai the ai.
      *
      * @return 1 if the player wins, 2 if the ai.
      * */
@@ -98,14 +98,14 @@ public class GameMaster {
     /**
      * Method for calculate a hand's strength.
      *
-     * @param hand
+     * @param hand ai's or player's hand.
      * */
     public int getHandValue(String[] hand){return this.winnerCalc.calculateCardsValue(hand);}
 
     /**
      * Setter method for minBet variable.
      *
-     * @param minbet
+     * @param minbet we want to set.
      * */
     public void setMinBet(int minbet) {
         this.minBet = minbet;
@@ -140,5 +140,8 @@ public class GameMaster {
      * */
     public Player getPlayer2() {return this.player2;}
 
-    public WinnerCalc getWinnerCalc() { return this.winnerCalc; }
+    /**
+     * Getter method for get a card's value.
+     * */
+    public int getCardValue(String card){return this.winnerCalc.calculateCardValue(card);}
 }

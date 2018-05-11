@@ -50,8 +50,6 @@ public class MainMenuController implements Initializable {
 
     public static String NEVEM;
 
-    private static final DBManager DB_MANAGER = DBManager.getDpInstance();
-
     static PlayerEntityDAOImpl playerEntityDAO = PlayerEntityDAOImpl.getPlayerEntityDAOImpl();
 
     @FXML

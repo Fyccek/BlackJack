@@ -28,12 +28,16 @@ package dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 
 public class PlayerEntityDAOImpl implements PlayerEntityDAO {
+
+    /**
+     * DataSource instance.
+    * */
+    private DataSource dataSource;
 
     /**
      * Logger instance for logging.
@@ -62,6 +66,11 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
     private PlayerEntityDAOImpl(){}
 
     /**
+     * public constructor for testing.
+     * */
+    public PlayerEntityDAOImpl(DataSource dataSource){}
+
+    /**
      * Method to find a player's credit by Id.
      *
      * @param myname the name of the entity.
@@ -81,6 +90,10 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
 
         } catch (NoResultException e) {
             LOGGER.error("Entity not found by name.");
+            return null;
+        } catch (NullPointerException e) {
+
+            LOGGER.error("Entity is not in database.");
             return null;
         }
     }
