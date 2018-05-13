@@ -50,7 +50,7 @@ public class MainMenuController implements Initializable {
 
     public static String NEVEM;
 
-    static PlayerEntityDAOImpl playerEntityDAO = PlayerEntityDAOImpl.getPlayerEntityDAOImpl();
+    public static PlayerEntityDAOImpl playerEntityDAO = PlayerEntityDAOImpl.getPlayerEntityDAOImpl();
 
     @FXML
     private AnchorPane MainPane;
@@ -95,7 +95,7 @@ public class MainMenuController implements Initializable {
 
             playerEntity = new PlayerEntity();
             playerEntity.setmyName(NEVEM);
-            playerEntity.setCredit(5000);
+            playerEntity.setCredit(BASE_CREDIT);
         }
 
         PlayButton.setDisable(false);

@@ -28,6 +28,7 @@ package controller;
 
 import dao.PlayerEntity;
 import dao.DBManager;
+import dao.PlayerEntityDAOImpl;
 import javafx.scene.control.Alert;
 import modell.GameMaster;
 import javafx.event.ActionEvent;
@@ -49,17 +50,12 @@ import static java.lang.Integer.parseInt;
 
 public class MainFXMLController implements Initializable {
 
-    private static final DBManager DB_MANAGER = DBManager.getDpInstance();
-
-    private Stage stage = new Stage();
-
     private GameMaster gameMaster = new GameMaster();
-
-    private int seged = 0;
 
     private int playerPosition = 0;
     private int aiPosition = 0;
     private boolean endofgame = false;
+    public PlayerEntityDAOImpl playerEntityDAO = PlayerEntityDAOImpl.getPlayerEntityDAOImpl();
 
     @FXML
     private Button ConcedeButton;
@@ -143,9 +139,6 @@ public class MainFXMLController implements Initializable {
     private Label aiCredit;
 
     @FXML
-    private Label maxCredit;
-
-    @FXML
     private Label myName;
 
     @FXML
@@ -192,17 +185,17 @@ public class MainFXMLController implements Initializable {
 
 
         try {
-            if (((MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == null
-                    || MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0 || aiCreditAmount == 0))) {
+            if (((playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == null
+                    || playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0 || aiCreditAmount == 0))) {
 
                 playerEntity.setCredit(BASE_CREDIT);
                 aiCreditAmount = BASE_CREDIT;
             } else {
-                playerEntity.setCredit(MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
+                playerEntity.setCredit(playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
                 this.gameMaster.getAi().setCredit(aiCreditAmount);
             }
 
-            MainMenuController.playerEntityDAO.save(playerEntity);
+            playerEntityDAO.save(playerEntity);
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -215,7 +208,7 @@ public class MainFXMLController implements Initializable {
         Credit01.setImage(img);
         Credit02.setImage(img);
 
-        myCredit.setText("" + MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
+        myCredit.setText("" + playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
         aiCredit.setText("" + aiCreditAmount);
 
         myName.setText(playerEntity.getMyname());
@@ -254,7 +247,7 @@ public class MainFXMLController implements Initializable {
             reMatch.setVisible(true);
             ConcedeButton.setDisable(false);
 
-            if (aiCreditAmount == 0 || MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0){whoWon();} else {
+            if (aiCreditAmount == 0 || playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0){whoWon();} else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("RESULT");
                 alert.setContentText(":(");
@@ -309,10 +302,10 @@ public class MainFXMLController implements Initializable {
         if(this.gameMaster.getWinner(this.gameMaster.getPlayer(), this.gameMaster.getAi()) == 1) {
 
             int bet = parseInt(Bets.getText());
-            playerEntity.setCredit(MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + bet);
+            playerEntity.setCredit(playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + bet);
 
             Bets.setText("");
-            MainMenuController.playerEntityDAO.save(playerEntity);
+            playerEntityDAO.save(playerEntity);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
@@ -330,7 +323,7 @@ public class MainFXMLController implements Initializable {
             alert.showAndWait();
         }
 
-        myCredit.setText("" + MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
+        myCredit.setText("" + playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
         aiCredit.setText("" + aiCreditAmount);
 
         whoWon();
@@ -342,7 +335,7 @@ public class MainFXMLController implements Initializable {
             aiCreditAmount = 5000;
             playerEntity.setCredit(5000);
         }
-        MainMenuController.playerEntityDAO.save(playerEntity);
+        playerEntityDAO.save(playerEntity);
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainFXml.fxml"));
         Desk.getChildren().setAll(pane);
     }
@@ -355,7 +348,7 @@ public class MainFXMLController implements Initializable {
 
         int  bet = parseInt(bettingField.getText());
 
-        if (bet > MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) || bet > aiCreditAmount) {
+        if (bet > playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) || bet > aiCreditAmount) {
             StartButton.setDisable(true);
             BetButton.setVisible(true);
             bettingField.setVisible(true);
@@ -381,14 +374,14 @@ public class MainFXMLController implements Initializable {
         else {
 
             this.gameMaster.getPlayer().PlusBet(bet);
-            playerEntity.setCredit(MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) - bet);
-            MainMenuController.playerEntityDAO.save(playerEntity);
+            playerEntity.setCredit(playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) - bet);
+            playerEntityDAO.save(playerEntity);
 
             this.gameMaster.getAi().plusBet(bet);
             aiCreditAmount = aiCreditAmount - bet;
             Bets.setText("" + bet * 2);
 
-            myCredit.setText("" + MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
+            myCredit.setText("" + playerEntityDAO.findPlayersCredit(playerEntity.getMyname()));
             aiCredit.setText("" + aiCreditAmount);
         }
         }
@@ -567,7 +560,7 @@ public class MainFXMLController implements Initializable {
     }
 
     private void whoWon(){
-        if (MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0) {
+        if (playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setHeaderText("You lost!");

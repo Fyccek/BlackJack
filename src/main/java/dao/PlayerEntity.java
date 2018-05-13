@@ -75,6 +75,8 @@ public class PlayerEntity implements Serializable{
 
     /**
      * Getter for Id variable.
+     *
+     * @return Id of the PlayerEntity
      */
     public Long getId() {
         return Id;
@@ -91,18 +93,17 @@ public class PlayerEntity implements Serializable{
 
     /**
      * Getter for credit variable.
+     *
+     * @return Amount of credit of the PlayerEntity
      */
     public Integer getCredit(){
         return this.credit;
     }
 
     /**
-     * Getter for maxCredit variable.
-     */
-    public Integer getMaxCredit(){ return this.maxCredit; }
-
-    /**
      * Getter for name variable.
+     *
+     * @return Name  of the PlayerEntity
      */
     public String getMyname(){ return this.myname; }
 

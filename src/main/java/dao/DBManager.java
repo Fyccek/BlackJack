@@ -68,6 +68,9 @@ public class DBManager {
 
     /**
      * Getter for DP_INSTANCE variable.
+     *
+     * @return a DPmanAGER instance.
+     *
      */
     public static DBManager getDpInstance(){
         return DP_INSTANCE;

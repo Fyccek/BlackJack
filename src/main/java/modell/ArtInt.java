@@ -102,7 +102,7 @@ public class ArtInt {
 	/**
      * Setter method for credit variable.
      *
-     * @param credit
+     * @param credit amount of setting.
      * */
 	public void setCredit(int credit) {
 		this.credit = credit;
@@ -145,7 +145,7 @@ public class ArtInt {
     /**
      * Method for change the credit.
      *
-     * @param plus , amount of changing.
+     * @param plus amount of changing.
      *
      * */
     public void plusCredit(int plus){
@@ -157,7 +157,9 @@ public class ArtInt {
     /**
      * Return a card from the ai's hand.
      *
-     * @param i, the position.
+     * @param i the position.
+	 *
+	 * @return Card on the i. position.
      **/
     public String getHandCard(int i){
         LOGGER.info("Get one card from i. position.");
@@ -167,7 +169,8 @@ public class ArtInt {
     /**
      * Getter method for bet variable.
      *
-     *@return bet
+     *@return bet of the Ai.
+	 *
      * */
 	public int getBet() {
 		return bet;
@@ -177,7 +180,7 @@ public class ArtInt {
     /**
      * Getter method for credit variable.
      *
-     *@return credit
+     *@return credit of the Ai.
      *
      * */
 	public int getCredit() {
@@ -187,7 +190,8 @@ public class ArtInt {
     /**
      * Getter method for hand variable.
      *
-     *@return hand
+     *@return hand of the Ai.
+	 *
      * */
 	public String[] getHand() {
 		return hand;

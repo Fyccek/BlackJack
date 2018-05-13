@@ -66,11 +66,6 @@ public class PlayerEntityDAOImpl implements PlayerEntityDAO {
     private PlayerEntityDAOImpl(){}
 
     /**
-     * public constructor for testing.
-     * */
-    public PlayerEntityDAOImpl(DataSource dataSource){}
-
-    /**
      * Method to find a player's credit by Id.
      *
      * @param myname the name of the entity.

@@ -73,7 +73,7 @@ public class GameMaster {
     private final ArtInt ai;
 
     /**
-     * Constructor of the GameMaster class.
+     * Public constructor of the GameMaster class.
      * */
     public GameMaster() {
 
@@ -86,19 +86,22 @@ public class GameMaster {
 }
 
     /**
-     * Method for decide who wins.
+     * Method for decide who wins with {@link WinnerCalc#calculateWinner(String[], String[])}.
      *
      * @param player the player.
      * @param ai the ai.
      *
      * @return 1 if the player wins, 2 if the ai.
+     *
      * */
     public int getWinner(Player player, ArtInt ai){return this.winnerCalc.calculateWinner(player.getHand(), ai.getHand());}
 
     /**
-     * Method for calculate a hand's strength.
+     * Method for calculate a hand's strength with {@link WinnerCalc#calculateCardsValue(String[])}.
      *
      * @param hand ai's or player's hand.
+     *
+     * @return Value of the hand
      * */
     public int getHandValue(String[] hand){return this.winnerCalc.calculateCardsValue(hand);}
 
@@ -106,6 +109,7 @@ public class GameMaster {
      * Setter method for minBet variable.
      *
      * @param minbet we want to set.
+     *
      * */
     public void setMinBet(int minbet) {
         this.minBet = minbet;
@@ -115,33 +119,47 @@ public class GameMaster {
     /**
      * Getter for minBet variable
      *
+     * @return Value of minbet.
      * */
     public int getMinBet() {
         return this.minBet;
     }
 
     /**
-     *Getter method for dealer variable.
+     *Getter method for dealer object.
+     *
+     * @return The dealer object.
      * */
     public Dealer getDealer() {return this.dealer;}
 
     /**
-     * Getter method for ai variable.
+     * Getter method for ai object.
+     *
+     * @return The ai object.
      * */
     public ArtInt getAi() {return this.ai;}
 
     /**
-     * Getter method for player variable.
+     * Getter method for player object.
+     *
+     * @return The player object.
      * */
     public Player getPlayer() {return this.player;}
 
     /**
      * Getter method for player2 variable.
+     *
+     * @return The player2 object.
      * */
     public Player getPlayer2() {return this.player2;}
 
     /**
      * Getter method for get a card's value.
+     * Calculate with {@link WinnerCalc#calculateCardValue(String)}
+     *
+     * @param card the one we calculate the value.
+     *
+     * @return A card's value.
      * */
     public int getCardValue(String card){return this.winnerCalc.calculateCardValue(card);}
 }

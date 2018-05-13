@@ -27,6 +27,7 @@ package controller;
  */
 
 import dao.DBManager;
+import dao.PlayerEntityDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,6 +50,9 @@ import static controller.MainFXMLController.*;
 import static java.lang.Integer.parseInt;
 
 public class SplitFXMLController implements Initializable {
+
+    public PlayerEntityDAOImpl playerEntityDAO = PlayerEntityDAOImpl.getPlayerEntityDAOImpl();
+
 
     @FXML
     private AnchorPane Split;
@@ -187,7 +191,7 @@ public class SplitFXMLController implements Initializable {
         HintButton.setDisable(true);
         PassButton.setDisable(true);
 
-        myCredit.setText("" + (MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) - betsValue / 2));
+        myCredit.setText("" + (playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) - betsValue / 2));
         aiCredit.setText("" + (aiCreditAmount - betsValue / 2));
 
         Bets.setText("" + betsValue * 2);
@@ -478,8 +482,8 @@ public class SplitFXMLController implements Initializable {
         int aiPont = parseInt(aiScore.getText());
 
         if ((myPont > aiPont && myPont <= 21) || (myPont2 > aiPont && myPont2 <= 21)) {
-            playerEntity.setCredit(MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + betsValue);
-            MainMenuController.playerEntityDAO.save(playerEntity);
+            playerEntity.setCredit(playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + ((betsValue * 2 )- (betsValue / 4)));
+            playerEntityDAO.save(playerEntity);
             aiCreditAmount = parseInt(aiCredit.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
@@ -488,9 +492,9 @@ public class SplitFXMLController implements Initializable {
         } else {
 
             if (myPont < aiPont && aiPont <= 21 && myPont2 < aiPont) {
-                aiCreditAmount += betsValue;
+                aiCreditAmount += ((betsValue * 2 )- (betsValue / 4));
                 playerEntity.setCredit(parseInt(myCredit.getText()));
-                MainMenuController.playerEntityDAO.save(playerEntity);
+                playerEntityDAO.save(playerEntity);
                 Alert alert02 = new Alert(Alert.AlertType.INFORMATION);
                 alert02.setTitle("RESULT");
                 alert02.setContentText(":(");
@@ -499,9 +503,9 @@ public class SplitFXMLController implements Initializable {
             } else {
 
                 if (aiPont == myPont || aiPont == myPont2) {
-                    aiCreditAmount += betsValue;
+                    aiCreditAmount += ((betsValue * 2 )- (betsValue / 4));
                     playerEntity.setCredit(parseInt(myCredit.getText()));
-                    MainMenuController.playerEntityDAO.save(playerEntity);
+                    playerEntityDAO.save(playerEntity);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("RESULT");
                     alert.setContentText(":(");
@@ -519,7 +523,7 @@ public class SplitFXMLController implements Initializable {
 
     private void whoWon() {
 
-        if (MainMenuController.playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0) {
+        if (playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) == 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setHeaderText("You lost!");

@@ -98,7 +98,7 @@ public class WinnerCalc {
 
 	        sum = 0;
 
-	        for(int i = 0; i < hand.length; i++){
+	        for(int i = 0; i < hand.length; i++) {
                 if (hand[i].endsWith("2")) {
                     seged = 2;
                 } else {
@@ -107,7 +107,7 @@ public class WinnerCalc {
                     } else {
                         if (hand[i].endsWith("4")) {
                             seged = 4;
-                        }else {
+                        } else {
                             if (hand[i].endsWith("5")) {
                                 seged = 5;
                             } else {
@@ -153,13 +153,14 @@ public class WinnerCalc {
                             }
                         }
                     }
-                } sum += seged; seged = 0;
-                for (int j = 0; j < hand.length; j++) {
-                    if (sum > 21 && hand[j].endsWith("A")) {
-                        sum -= 10;
-                    }
                 }
-	        }
+                sum += seged;
+                seged = 0;
+            } for (int j = 0; j < hand.length; j++) {
+                if (sum > 21 && hand[j].endsWith("A")) {
+                    sum -= 10;
+                }
+            }
 
             LOGGER.info("Hands's value has been calculated.");
 	        return sum;

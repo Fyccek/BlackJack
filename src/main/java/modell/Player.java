@@ -92,7 +92,7 @@ public class Player {
     /**
      * Method for change the bet.
      *
-     * @param plus , amount of changing.
+     * @param plus amount of changing.
      *
      * */
     public void PlusBet(int plus){
@@ -185,6 +185,8 @@ public class Player {
      * Return a card from the player's hand.
      *
      * @param i, the position.
+     *
+     * @return One card in the i. position.
      **/
     public String getHandCard(int i){
         return this.hand[i];
