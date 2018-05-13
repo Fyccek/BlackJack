@@ -173,9 +173,9 @@ public class SplitFXMLController implements Initializable {
 
     GameMaster gameMaster = new GameMaster();
 
-    int playerPosition;
-    int player2Position;
-    int aiPosition;
+    int playerPosition = 1;
+    int player2Position = 1;
+    int aiPosition = 2;
 
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -190,6 +190,11 @@ public class SplitFXMLController implements Initializable {
         reMatch.setVisible(false);
         HintButton.setDisable(true);
         PassButton.setDisable(true);
+
+        this.gameMaster.getPlayer().setCard(myFirstCard, 0);
+        this.gameMaster.getPlayer2().setCard(myFirstCard, 0);
+        this.gameMaster.getAi().setCard(aiFirstCard, 0);
+        this.gameMaster.getAi().setCard(aiSecondCard, 1);
 
         myCredit.setText("" + (playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) - betsValue / 2));
         aiCredit.setText("" + (aiCreditAmount - betsValue / 2));
@@ -235,11 +240,14 @@ public class SplitFXMLController implements Initializable {
 
         HintAiHand();
         Image img1 = new Image(getClass().getClassLoader().getResource("pictures/" +aiFirstCard + ".png").toString());
+        imgStaticAi = img01.getImage();
         img01.setImage(img1);
+        Image img12 = new Image(getClass().getClassLoader().getResource("pictures/" +aiSecondCard + ".png").toString());
+        img02.setImage(img12);
         PassButton.setDisable(true);
         reMatch.setVisible(true);
         ConcedeButton.setDisable(false);
-        //aiScore.setText("" + (this.gameMaster.getHandValue(this.gameMaster.getAi().getHand() ) +aiHandsValue));
+        aiScore.setText("" + this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()));
         HintAiHand();
         WinnerDeal();
         whoWon();
@@ -280,30 +288,21 @@ public class SplitFXMLController implements Initializable {
         if(player == this.gameMaster.getPlayer()) {
             Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer().getHand()[position] + ".png").toString());
             imageView.setImage(image1);
-            myScore.setText("" + (this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand()) +  myHandsValue));
+            myScore.setText("" + (this.gameMaster.getHandValue(this.gameMaster.getPlayer().getHand())));
         } else {
             Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getPlayer2().getHand()[position] + ".png").toString());
             imageView.setImage(image1);
-            myScore02.setText("" + (myHandsValue + this.gameMaster.getHandValue(this.gameMaster.getPlayer2().getHand())));
+            myScore02.setText("" + this.gameMaster.getHandValue(this.gameMaster.getPlayer2().getHand()));
         }
     }
 
     private void HintPlayerHand(Player player) {
         while (true) {
 
-            if (playerPosition == 0 ) {
-                this.gameMaster.getDealer().dealToPlayer(player, playerPosition);
-
-                setPlayerCardIm(player, playerPosition, img12);
-
-                ++playerPosition;
-                break;
-            }
-
             if (playerPosition == 1) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                setPlayerCardIm(player, playerPosition, img13);
+                setPlayerCardIm(player, playerPosition, img12);
 
                 ++playerPosition;
                 break;
@@ -312,7 +311,7 @@ public class SplitFXMLController implements Initializable {
             if (playerPosition == 2 ) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                setPlayerCardIm(player, playerPosition, img14);
+                setPlayerCardIm(player, playerPosition, img13);
 
                 ++playerPosition;
                 break;
@@ -321,7 +320,7 @@ public class SplitFXMLController implements Initializable {
             if (playerPosition == 3) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                setPlayerCardIm(player, playerPosition, img15);
+                setPlayerCardIm(player, playerPosition, img14);
 
                 ++playerPosition;
                 break;
@@ -330,7 +329,7 @@ public class SplitFXMLController implements Initializable {
             if (playerPosition == 4) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                setPlayerCardIm(player, playerPosition, img16);
+                setPlayerCardIm(player, playerPosition, img15);
 
                 ++playerPosition;
                 break;
@@ -339,7 +338,7 @@ public class SplitFXMLController implements Initializable {
             if (playerPosition == 5) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                setPlayerCardIm(player, playerPosition, img17);
+                setPlayerCardIm(player, playerPosition, img16);
 
                 ++playerPosition;
                 break;
@@ -348,7 +347,7 @@ public class SplitFXMLController implements Initializable {
             if (playerPosition == 6) {
                 this.gameMaster.getDealer().dealToPlayer(this.gameMaster.getPlayer(), playerPosition);
 
-                setPlayerCardIm(player, playerPosition, img18);
+                setPlayerCardIm(player, playerPosition, img17);
 
                 ++playerPosition;
                 break;
@@ -359,57 +358,58 @@ public class SplitFXMLController implements Initializable {
     private void setAiCardIm(int position, ImageView imageView){
         Image image1 = new Image(getClass().getClassLoader().getResource("pictures/" + this.gameMaster.getAi().getHand()[position] + ".png").toString());
         imageView.setImage(image1);
-        aiScore.setText("" + (this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()) + aiHandsValue));
+        aiScore.setText("" + (this.gameMaster.getHandValue(this.gameMaster.getAi().getHand())));
     }
 
     private void HintAiHand() {
 
-        if (aiPosition == 0 && (parseInt(aiScore.getText()) ) < 17) {
+        /*if (aiPosition == 0 && (parseInt(aiScore.getText()) ) < 17) {
+                    this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
+
+                    setAiCardIm(aiPosition, img03);
+                    ++aiPosition;
+                }*/
+
+                if (aiPosition == 2 && this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()) < 17) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img03);
                     ++aiPosition;
                 }
 
-                if (aiPosition == 1 && (parseInt(aiScore.getText())  ) < 17) {
+                if (aiPosition == 3 && this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()) < 17) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img04);
                     ++aiPosition;
                 }
 
-                if (aiPosition == 2 && (parseInt(aiScore.getText()) ) < 17) {
+                if (aiPosition == 4 && this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()) < 17) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img05);
                     ++aiPosition;
                 }
 
-                if (aiPosition == 3 && (parseInt(aiScore.getText()) ) < 17) {
+                if (aiPosition == 5 && this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()) < 17 ) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img06);
                     ++aiPosition;
                 }
 
-                if (aiPosition == 4 && (parseInt(aiScore.getText()) ) < 17 ) {
+                if (aiPosition == 6 && this.gameMaster.getHandValue(this.gameMaster.getAi().getHand()) < 17) {
                     this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
 
                     setAiCardIm(aiPosition, img07);
-                    ++aiPosition;
-                }
-
-                if (aiPosition == 5 && parseInt(aiScore.getText()) < 17) {
-                    this.gameMaster.getDealer().dealToAi(this.gameMaster.getAi(), aiPosition);
-
-                    setAiCardIm(aiPosition, img08);
                 }
     }
 
     private void HintPlayer2Hand(Player player) {
         while (true) {
 
-            if (player2Position == 0 ) {
+
+            if (player2Position == 1 ) {
                 this.gameMaster.getDealer().dealToPlayer(player, player2Position);
 
                 setPlayerCardIm(player, player2Position, img32);
@@ -418,7 +418,7 @@ public class SplitFXMLController implements Initializable {
                 break;
             }
 
-            if (player2Position == 1 ) {
+            if (player2Position == 2 ) {
                 this.gameMaster.getDealer().dealToPlayer(player, player2Position);
 
                 setPlayerCardIm(player, player2Position, img33);
@@ -427,7 +427,7 @@ public class SplitFXMLController implements Initializable {
                 break;
             }
 
-            if (player2Position == 2 ) {
+            if (player2Position == 3 ) {
                 this.gameMaster.getDealer().dealToPlayer(player, player2Position);
 
                 setPlayerCardIm(player, player2Position, img34);
@@ -436,7 +436,7 @@ public class SplitFXMLController implements Initializable {
                 break;
             }
 
-            if (player2Position == 3 ) {
+            if (player2Position == 4 ) {
                 this.gameMaster.getDealer().dealToPlayer(player, player2Position);
 
                 setPlayerCardIm(player, player2Position, img35);
@@ -445,7 +445,7 @@ public class SplitFXMLController implements Initializable {
                 break;
             }
 
-            if (player2Position == 4 ) {
+            if (player2Position == 5 ) {
                 this.gameMaster.getDealer().dealToPlayer(player, player2Position);
 
                 setPlayerCardIm(player, player2Position, img36);
@@ -454,19 +454,10 @@ public class SplitFXMLController implements Initializable {
                 break;
             }
 
-            if (player2Position == 5 ) {
-                this.gameMaster.getDealer().dealToPlayer(player, player2Position);
-
-                setPlayerCardIm(player, player2Position, img37);
-
-                ++player2Position;
-                break;
-            }
-
             if (player2Position == 6 ) {
                 this.gameMaster.getDealer().dealToPlayer(player, player2Position);
 
-                setPlayerCardIm(player, player2Position, img38);
+                setPlayerCardIm(player, player2Position, img37);
 
                 ++player2Position;
                 break;
@@ -475,14 +466,14 @@ public class SplitFXMLController implements Initializable {
     }
 
     private void WinnerDeal() {
-        //int bet = parseInt(Bets.getText());
+        int bet = parseInt(Bets.getText());
 
         int myPont = parseInt(myScore.getText());
         int myPont2 = parseInt(myScore02.getText());
         int aiPont = parseInt(aiScore.getText());
 
         if ((myPont > aiPont && myPont <= 21) || (myPont2 > aiPont && myPont2 <= 21)) {
-            playerEntity.setCredit(playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + ((betsValue * 2 )- (betsValue / 4)));
+            playerEntity.setCredit(playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + bet);
             playerEntityDAO.save(playerEntity);
             aiCreditAmount = parseInt(aiCredit.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -492,7 +483,7 @@ public class SplitFXMLController implements Initializable {
         } else {
 
             if (myPont < aiPont && aiPont <= 21 && myPont2 < aiPont) {
-                aiCreditAmount += ((betsValue * 2 )- (betsValue / 4));
+                aiCreditAmount += bet;
                 playerEntity.setCredit(parseInt(myCredit.getText()));
                 playerEntityDAO.save(playerEntity);
                 Alert alert02 = new Alert(Alert.AlertType.INFORMATION);
@@ -503,7 +494,7 @@ public class SplitFXMLController implements Initializable {
             } else {
 
                 if (aiPont == myPont || aiPont == myPont2) {
-                    aiCreditAmount += ((betsValue * 2 )- (betsValue / 4));
+                    aiCreditAmount += (parseInt(Bets.getText()) - betsValue);
                     playerEntity.setCredit(parseInt(myCredit.getText()));
                     playerEntityDAO.save(playerEntity);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);

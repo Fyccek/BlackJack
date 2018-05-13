@@ -165,12 +165,15 @@ public class MainFXMLController implements Initializable {
 
     public static int aiCreditAmount = 5000;
     public static Image imgStaticAi;
+    public static Image imgStaticAi2;
     public static Image imgStaticPlayer1;
     public static Image imgStaticPlayer2;
     public static int myHandsValue;
     public static int betsValue;
     public static int aiHandsValue;
     public static String aiFirstCard;
+    public static String myFirstCard;
+    public static String aiSecondCard;
 
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -227,9 +230,11 @@ public class MainFXMLController implements Initializable {
     @FXML
     public void splitButtonAction(ActionEvent actionEvent) throws IOException {
         myHandsValue = this.gameMaster.getCardValue(this.gameMaster.getPlayer().getHandCard(0));
+        myFirstCard = this.gameMaster.getPlayer().getHandCard(0);
         betsValue = parseInt(Bets.getText());
         aiHandsValue = this.gameMaster.getCardValue(this.gameMaster.getAi().getHandCard(0));
         aiFirstCard = this.gameMaster.getAi().getHandCard(0);
+        aiSecondCard = this.gameMaster.getAi().getHandCard(1);
         AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/Split.fxml"));
         Desk.getChildren().setAll(pane);
     }
@@ -267,6 +272,7 @@ public class MainFXMLController implements Initializable {
         PassButton.setDisable(false);
 
         imgStaticAi = img01.getImage();
+        imgStaticAi2 = img02.getImage();
 
         imgStaticPlayer1 = img11.getImage();
         imgStaticPlayer2 = img12.getImage();
