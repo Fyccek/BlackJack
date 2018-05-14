@@ -261,15 +261,7 @@ public class SplitFXMLController implements Initializable {
             HintButton.setDisable(true);
         }
 
-        if(parseInt(myScore.getText()) > 21 && parseInt(myScore02.getText()) > 21) {
-
-            int bet = parseInt(Bets.getText());
-            aiCreditAmount += bet;
-
-            aiCredit.setText("" + aiCreditAmount);
-
-            HintButton.setDisable(true);
-        }
+        HintButton.setDisable(true);
     }
 
     @FXML
@@ -475,17 +467,14 @@ public class SplitFXMLController implements Initializable {
         if ((myPont > aiPont && myPont <= 21) || (myPont2 > aiPont && myPont2 <= 21)) {
             playerEntity.setCredit(playerEntityDAO.findPlayersCredit(playerEntity.getMyname()) + bet);
             playerEntityDAO.save(playerEntity);
-            aiCreditAmount = parseInt(aiCredit.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("RESULT");
             alert.setContentText(":)");
             alert.showAndWait();
         } else {
 
-            if (myPont < aiPont && aiPont <= 21 && myPont2 < aiPont) {
+            if ((myPont < aiPont && aiPont <= 21) && (myPont2 < aiPont)) {
                 aiCreditAmount += bet;
-                playerEntity.setCredit(parseInt(myCredit.getText()));
-                playerEntityDAO.save(playerEntity);
                 Alert alert02 = new Alert(Alert.AlertType.INFORMATION);
                 alert02.setTitle("RESULT");
                 alert02.setContentText(":(");
@@ -493,14 +482,20 @@ public class SplitFXMLController implements Initializable {
 
             } else {
 
-                if (aiPont == myPont || aiPont == myPont2) {
-                    aiCreditAmount += (parseInt(Bets.getText()) - betsValue);
-                    playerEntity.setCredit(parseInt(myCredit.getText()));
-                    playerEntityDAO.save(playerEntity);
+                if (aiPont == myPont && aiPont == myPont2) {
+                    aiCreditAmount += bet;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("RESULT");
                     alert.setContentText(":(");
                     alert.showAndWait();
+                } else {
+                    if (myPont > 21 && myPont2 > 21) {
+                        aiCreditAmount += bet;
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("RESULT");
+                        alert.setContentText(":(");
+                        alert.showAndWait();
+                    }
                 }
             }
         }
